@@ -20,8 +20,8 @@ CREATE TABLE IF NOT EXISTS gift_certificates
     name             VARCHAR(255)   NOT NULL,
     description      VARCHAR(1000)  NOT NULL,
     price            NUMERIC(40, 2) NOT NULL,
-    create_date      TIMESTAMP      NOT NULL DEFAULT NOW(),
-    last_update_date TIMESTAMP      NOT NULL DEFAULT NOW(),
+    create_date      TIMESTAMP      DEFAULT NOW(),
+    last_update_date TIMESTAMP      DEFAULT NOW(),
     PRIMARY KEY (id)
 );
 
