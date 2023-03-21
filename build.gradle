@@ -18,6 +18,7 @@ dependencies {
     implementation "org.springframework:spring-core:$springVersion"
     implementation "org.springframework:spring-beans:$springVersion"
     implementation "org.springframework:spring-context:$springVersion"
+    implementation "org.springframework:spring-jdbc:$springVersion"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
