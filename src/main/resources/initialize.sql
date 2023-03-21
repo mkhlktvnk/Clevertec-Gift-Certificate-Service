@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION trigger_set_last_update_date()
+    RETURNS TRIGGER AS $$
+BEGIN
+    NEW.last_update_date = NOW();
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE TABLE IF NOT EXISTS tags
 (
     id   BIGSERIAL    NOT NULL,
@@ -15,6 +23,11 @@ CREATE TABLE IF NOT EXISTS gift_certificates
     last_update_date TIMESTAMP      NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TRIGGER set_timestamp
+BEFORE UPDATE ON gift_certificates
+FOR EACH ROW
+EXECUTE PROCEDURE trigger_set_last_update_date();
 
 CREATE TABLE IF NOT EXISTS gift_certificates_tags
 (
