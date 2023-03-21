@@ -1,5 +1,6 @@
 CREATE OR REPLACE FUNCTION trigger_set_last_update_date()
-    RETURNS TRIGGER AS $$
+    RETURNS TRIGGER AS
+$$
 BEGIN
     NEW.last_update_date = NOW();
     RETURN NEW;
@@ -25,8 +26,9 @@ CREATE TABLE IF NOT EXISTS gift_certificates
 );
 
 CREATE TRIGGER set_timestamp
-BEFORE UPDATE ON gift_certificates
-FOR EACH ROW
+    BEFORE UPDATE
+    ON gift_certificates
+    FOR EACH ROW
 EXECUTE PROCEDURE trigger_set_last_update_date();
 
 CREATE TABLE IF NOT EXISTS gift_certificates_tags
