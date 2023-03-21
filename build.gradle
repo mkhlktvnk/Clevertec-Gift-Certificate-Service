@@ -19,6 +19,7 @@ ext {
     mapstructVersion = '1.5.3.Final'
     mapstructLombokBingindVersion = '0.2.0'
     postgresqlVersion = '42.6.0'
+    hikariConnectionPoolVersion = '3.0.1'
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     implementation "org.springframework:spring-web:$springVersion"
 
     implementation "org.postgresql:postgresql:$postgresqlVersion"
+    implementation "hikari-cp:hikari-cp:$hikariConnectionPoolVersion"
 
     implementation "org.mapstruct:mapstruct:$mapstructVersion"
     implementation "org.mapstruct:mapstruct-processor:$mapstructVersion"
