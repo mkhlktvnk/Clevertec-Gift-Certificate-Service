@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain;
+package ru.clevertec.ecl.domain.entity;
 
 import lombok.*;
 
