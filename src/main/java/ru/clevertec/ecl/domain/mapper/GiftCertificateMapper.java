@@ -1,12 +1,14 @@
 package ru.clevertec.ecl.domain.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
     @Override
     public GiftCertificate mapRow(ResultSet rs, int rowNum) throws SQLException {
