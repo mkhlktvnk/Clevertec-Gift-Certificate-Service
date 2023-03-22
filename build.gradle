@@ -43,6 +43,8 @@ dependencies {
     implementation "org.mapstruct:mapstruct-processor:$mapstructVersion"
     implementation "org.projectlombok:lombok-mapstruct-binding:$mapstructLombokBingindVersion"
 
+    testImplementation "org.springframework:spring-test:$springVersion"
+
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
     testCompileOnly "org.projectlombok:lombok:$lombokVersion"
