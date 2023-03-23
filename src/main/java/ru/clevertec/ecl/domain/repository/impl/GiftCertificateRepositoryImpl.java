@@ -29,13 +29,12 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
     private final RowMapper<GiftCertificate> mapper;
 
-
     @Override
     public List<GiftCertificate> findAll(int page, int size) {
         List<GiftCertificate> giftCertificates;
         try {
             giftCertificates = jdbcTemplate.query(GiftCertificateQueries.FIND_ALL_WITH_LIMIT_AND_OFFSET,
-                    new Object[]{ size, page }, mapper);
+                    new Object[]{size, page}, mapper);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
