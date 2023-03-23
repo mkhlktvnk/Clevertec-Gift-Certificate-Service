@@ -101,7 +101,7 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
         boolean isExists;
         try {
             Integer result = jdbcTemplate.queryForObject(GiftCertificateQueries.SELECT_COUNT_BY_ID,
-                    new Object[] { id }, Integer.class);
+                    Integer.class, id);
             isExists = result > 0;
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
