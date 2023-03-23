@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain.column;
+package ru.clevertec.ecl.domain.constant.column;
 
 public class GiftCertificateColumns {
     public static final String ID = "id";
