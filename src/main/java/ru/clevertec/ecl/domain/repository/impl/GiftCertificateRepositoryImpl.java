@@ -96,6 +96,19 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
         }
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        boolean isExists;
+        try {
+            Integer result = jdbcTemplate.queryForObject(GiftCertificateQueries.SELECT_COUNT_BY_ID,
+                    new Object[] { id }, Integer.class);
+            isExists = result > 0;
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return isExists;
+    }
+
     private GiftCertificate mapInsertResult(Map<String, Object> map) {
         return GiftCertificate.builder()
                 .id((Long) map.get(GiftCertificateColumns.ID))
