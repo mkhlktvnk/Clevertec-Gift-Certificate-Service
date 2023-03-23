@@ -7,21 +7,28 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
 
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class GiftCertificateRepositoryImpl implements GiftCertificateRepository {
     private final JdbcTemplate jdbcTemplate;
+
     private final RowMapper<GiftCertificate> mapper;
+
 
     @Override
     public List<GiftCertificate> findAll(int page, int size) {
@@ -31,21 +38,32 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
     @Override
     public Optional<GiftCertificate> findById(Long id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(GiftCertificateQueries.FIND_BY_ID,
-                new Object[] { id }, mapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(GiftCertificateQueries.FIND_BY_ID,
+                    new Object[]{id}, mapper));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
+    @Transactional
     public GiftCertificate insert(GiftCertificate giftCertificate) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
-            jdbcTemplate.update(c -> c.prepareStatement(GiftCertificateQueries.INSERT,
-                    Statement.RETURN_GENERATED_KEYS), keyHolder);
+            jdbcTemplate.update(con -> {
+                PreparedStatement ps = con.prepareStatement(GiftCertificateQueries.INSERT,
+                        Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, giftCertificate.getName());
+                ps.setString(2, giftCertificate.getDescription());
+                ps.setBigDecimal(3, giftCertificate.getPrice());
+                ps.setInt(4, giftCertificate.getDuration());
+                return ps;
+            }, keyHolder);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return findById(Objects.requireNonNull(keyHolder.getKey()).longValue())
-                .orElseThrow(DomainException::new);
+        return mapInsertResult(keyHolder.getKeys());
     }
 
     @Override
@@ -70,5 +88,17 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
+    }
+
+    private GiftCertificate mapInsertResult(Map<String, Object> map) {
+        return GiftCertificate.builder()
+                .id((Long) map.get(GiftCertificateColumns.ID))
+                .name((String) map.get(GiftCertificateColumns.NAME))
+                .description((String) map.get(GiftCertificateColumns.DESCRIPTION))
+                .price((BigDecimal) map.get(GiftCertificateColumns.PRICE))
+                .duration((Integer) map.get(GiftCertificateColumns.DURATION))
+                .createDate((Timestamp) map.get(GiftCertificateColumns.CREATE_DATE))
+                .lastUpdateDate((Timestamp) map.get(GiftCertificateColumns.LAST_UPDATE_DATE))
+                .build();
     }
 }
