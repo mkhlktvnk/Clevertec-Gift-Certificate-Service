@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain.constants.table;
+package ru.clevertec.ecl.domain.constant.table;
 
 public class Tables {
     public static final String GIFT_CERTIFICATES_TABLE = "gift_certificates";
