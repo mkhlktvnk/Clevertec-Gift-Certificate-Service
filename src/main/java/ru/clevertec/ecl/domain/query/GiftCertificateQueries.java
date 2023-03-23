@@ -13,5 +13,5 @@ public class GiftCertificateQueries {
 
     public static final String DELETE_BY_ID = "DELETE FROM gift_certificates WHERE id = ?;";
 
-    public static final String SELECT_COUNT_BY_ID = "SELECT COUNT(*) WHERE id = ?";
+    public static final String SELECT_COUNT_BY_ID = "SELECT COUNT(*) FROM gift_certificates WHERE id = ?;";
 }
