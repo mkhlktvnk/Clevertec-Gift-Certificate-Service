@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +19,5 @@ public class GiftCertificate {
     private Integer duration;
     private Timestamp createDate;
     private Timestamp lastUpdateDate;
+    private List<Tag> tags;
 }
