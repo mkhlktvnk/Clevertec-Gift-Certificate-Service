@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
+import ru.clevertec.ecl.domain.query.creator.QueryCreator;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
 
@@ -28,6 +29,10 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<GiftCertificate> mapper;
+
+    private final QueryCreator<GiftCertificate> queryCreator;
+
+    private static final String TABLE = "gift_certificates";
 
     @Override
     public List<GiftCertificate> findAll(int page, int size) {
@@ -74,13 +79,9 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     @Override
     public void update(Long id, GiftCertificate giftCertificate) {
         try {
-            jdbcTemplate.update(GiftCertificateQueries.UPDATE_BY_ID,
-                    giftCertificate.getName(),
-                    giftCertificate.getDescription(),
-                    giftCertificate.getPrice(),
-                    giftCertificate.getDuration(),
-                    giftCertificate.getId()
-            );
+            giftCertificate.setId(id);
+            String query = queryCreator.createUpdateQuery(giftCertificate, TABLE);
+            jdbcTemplate.update(query);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
