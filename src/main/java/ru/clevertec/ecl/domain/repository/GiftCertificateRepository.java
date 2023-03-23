@@ -11,4 +11,5 @@ public interface GiftCertificateRepository {
     GiftCertificate insert(GiftCertificate giftCertificate);
     void update(Long id, GiftCertificate giftCertificate);
     void delete(Long id);
+    boolean existsById(Long id);
 }
