@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,8 +33,14 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
     @Override
     public List<GiftCertificate> findAll(int page, int size) {
-        return jdbcTemplate.query(GiftCertificateQueries.FIND_ALL_WITH_LIMIT_AND_OFFSET,
-                new Object[]{ size, page }, mapper);
+        List<GiftCertificate> giftCertificates;
+        try {
+            giftCertificates = jdbcTemplate.query(GiftCertificateQueries.FIND_ALL_WITH_LIMIT_AND_OFFSET,
+                    new Object[]{ size, page }, mapper);
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return giftCertificates;
     }
 
     @Override
