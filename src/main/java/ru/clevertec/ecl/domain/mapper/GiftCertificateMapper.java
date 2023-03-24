@@ -2,7 +2,7 @@ package ru.clevertec.ecl.domain.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
+import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 
 import java.sql.ResultSet;
