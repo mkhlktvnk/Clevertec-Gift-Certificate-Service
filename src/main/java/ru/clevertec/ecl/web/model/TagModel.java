@@ -8,9 +8,6 @@ import lombok.*;
 
 @Builder
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class TagModel {
     @NotNull
     @Min(0)
