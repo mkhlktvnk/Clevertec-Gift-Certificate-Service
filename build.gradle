@@ -26,6 +26,7 @@ ext {
     hikariConnectionPoolVersion = '5.0.1'
     servletApiVersion = '6.0.0'
     jacksonVersion = "2.14.2"
+    jakartaValidationApiVersion = '3.0.2'
 }
 
 dependencies {
@@ -35,7 +36,9 @@ dependencies {
     implementation "org.springframework:spring-jdbc:$springVersion"
     implementation "org.springframework:spring-web:$springVersion"
     implementation "org.springframework:spring-webmvc:$springVersion"
-    compileOnly "jakarta.servlet:jakarta.servlet-api:$servletApiVersion"
+    compileOnly "jakarta.servlet:jakarta.servlet-api:$jakartaValidationApiVersion"
+
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
 
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
