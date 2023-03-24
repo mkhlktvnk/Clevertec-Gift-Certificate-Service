@@ -7,5 +7,4 @@ public interface GiftCertificateService {
     GiftCertificate save(GiftCertificate giftCertificate);
     void updateById(long id, GiftCertificate giftCertificate);
     void deleteById(long id);
-    boolean existsById(long id);
 }
