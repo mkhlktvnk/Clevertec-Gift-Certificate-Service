@@ -47,4 +47,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         }
         giftCertificateRepository.delete(id);
     }
+
+    @Override
+    public boolean existsById(long id) {
+        return giftCertificateRepository.existsById(id);
+    }
 }
