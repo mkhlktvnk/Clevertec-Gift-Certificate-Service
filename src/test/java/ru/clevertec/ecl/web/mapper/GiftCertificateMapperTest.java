@@ -19,7 +19,7 @@ class GiftCertificateMapperTest {
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
 
     @ParameterizedTest
-    @MethodSource("provideGiftCertificateModels")
+    @MethodSource("provideGiftCertificates")
     void mapToModel(GiftCertificate giftCertificate) {
         GiftCertificateModel mappedModel = mapper.mapToModel(giftCertificate);
         assertAll(
@@ -32,7 +32,7 @@ class GiftCertificateMapperTest {
         );
     }
 
-    private static Stream<GiftCertificate> provideGiftCertificateModels() {
+    private static Stream<GiftCertificate> provideGiftCertificates() {
         return Stream.of(
                 GiftCertificateTestDataBuilder.aGiftCertificate().withId(1L).withName("name-1")
                         .withTags(singletonList(TagTestDataBuilder.aTag().build()))
