@@ -65,7 +65,11 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public void delete(Long id) {
-
+        try {
+            jdbcTemplate.update(TagQueries.DELETE_BY_ID, id);
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
     }
 
     private Tag mapInsertResult(Map<String, Object> map) {
