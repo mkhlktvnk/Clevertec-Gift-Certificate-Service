@@ -35,7 +35,10 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public void updateById(long id, Tag tag) {
-        throw new UnsupportedOperationException();
+        if (!tagRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Tag not found!");
+        }
+        tagRepository.update(id, tag);
     }
 
     @Override
