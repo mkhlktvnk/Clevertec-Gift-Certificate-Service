@@ -85,6 +85,19 @@ public class TagRepositoryImpl implements TagRepository {
         }
     }
 
+    @Override
+    public boolean existsById(Long id) {
+        boolean isExists;
+        try {
+            Integer result = jdbcTemplate.queryForObject(TagQueries.SELECT_COUNT_BY_ID,
+                    Integer.class, id);
+            isExists = result > 0;
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return isExists;
+    }
+
     private Tag mapInsertResult(Map<String, Object> map) {
         return Tag.builder()
                 .id((Long) map.get(TagColumns.ID))
