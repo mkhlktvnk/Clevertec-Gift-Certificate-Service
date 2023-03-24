@@ -10,6 +10,7 @@ import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
+import java.net.IDN;
 import java.util.List;
 
 @Service
@@ -37,7 +38,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public void updateById(long id, GiftCertificate giftCertificate) {
-        throw new UnsupportedOperationException();
+        if (!giftCertificateRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Gift certificate not found!");
+        }
+        giftCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
+        giftCertificateRepository.update(id, giftCertificate);
     }
 
     @Override
