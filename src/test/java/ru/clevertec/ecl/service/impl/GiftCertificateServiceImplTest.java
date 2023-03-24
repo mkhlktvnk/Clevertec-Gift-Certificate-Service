@@ -77,7 +77,7 @@ class GiftCertificateServiceImplTest {
                 .withTags(singletonList(tag))
                 .build();
         int expectedTagRepositoryCalls = giftCertificate.getTags().size();
-        doReturn(true).when(tagRepository).existsById(ID);
+        doReturn(true).when(giftCertificateRepository).existsById(ID);
 
         giftCertificateService.updateById(ID, giftCertificate);
 
