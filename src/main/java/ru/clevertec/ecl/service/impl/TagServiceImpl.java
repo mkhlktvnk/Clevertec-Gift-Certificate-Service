@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
+import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
@@ -11,6 +12,7 @@ import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
+    private final GiftCertificateService giftCertificateService;
 
     @Override
     public Tag getById(long id) {
@@ -25,6 +27,9 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag) {
+        if (!giftCertificateService.existsById(giftCertificateId)) {
+            throw new ResourceNotFoundException("Gift certificate not found!");
+        }
         return tagRepository.insertAndAddToGiftCertificate(giftCertificateId, tag);
     }
 
