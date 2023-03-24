@@ -64,6 +64,19 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag) {
+        Tag inserted;
+        try {
+            inserted = insert(tag);
+            jdbcTemplate.update(TagQueries.ADD_TAG_TO_GIFT_CERTIFICATE,
+                    tagCertificateId, tag.getId());
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return inserted;
+    }
+
+    @Override
     public void delete(Long id) {
         try {
             jdbcTemplate.update(TagQueries.DELETE_BY_ID, id);
