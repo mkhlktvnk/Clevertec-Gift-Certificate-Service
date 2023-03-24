@@ -8,7 +8,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
+import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
 import ru.clevertec.ecl.domain.query.creator.QueryCreator;
