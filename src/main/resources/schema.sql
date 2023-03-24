@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS gift_certificates_tags
     gift_certificate_id BIGSERIAL NOT NULL,
     tag_id              BIGSERIAL NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (gift_certificate_id) REFERENCES gift_certificates (id),
+    FOREIGN KEY (gift_certificate_id) REFERENCES gift_certificates (id)
+        ON DELETE CASCADE,
     FOREIGN KEY (tag_id) REFERENCES tags (id)
+        ON DELETE CASCADE
 );
