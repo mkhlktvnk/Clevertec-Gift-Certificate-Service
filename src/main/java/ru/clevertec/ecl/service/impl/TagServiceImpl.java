@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
+import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -13,26 +14,30 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public Tag getById(long id) {
-        return null;
+        return tagRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tag not found!"));
     }
 
     @Override
     public Tag insert(Tag tag) {
-        return null;
+        return tagRepository.insert(tag);
     }
 
     @Override
     public Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag) {
-        return null;
+        return tagRepository.insertAndAddToGiftCertificate(giftCertificateId, tag);
     }
 
     @Override
     public void updateById(long id, Tag tag) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteById(long id) {
-
+        if (!tagRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Tag not found!");
+        }
+        tagRepository.delete(id);
     }
 }
