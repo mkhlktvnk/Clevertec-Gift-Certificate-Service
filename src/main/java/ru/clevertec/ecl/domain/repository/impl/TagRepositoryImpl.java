@@ -77,6 +77,15 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public void update(Long id, Tag tag) {
+        try {
+            jdbcTemplate.update(TagQueries.UPDATE, tag.getName(), id);
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public void delete(Long id) {
         try {
             jdbcTemplate.update(TagQueries.DELETE_BY_ID, id);
