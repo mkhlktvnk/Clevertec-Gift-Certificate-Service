@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
+import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.GiftCertificateService;
-import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateRepository giftCertificateRepository;
-    private final TagService tagService;
+    private final TagRepository tagRepository;
 
     @Override
     public GiftCertificate getById(long id) {
@@ -29,7 +29,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public GiftCertificate save(GiftCertificate giftCertificate) {
         GiftCertificate insertedCertificate = giftCertificateRepository.insert(giftCertificate);
         List<Tag> insertedTags = giftCertificate.getTags().stream()
-                .map(tag -> tagService.insertAndAddToGiftCertificate(insertedCertificate.getId(), tag))
+                .map(tag -> tagRepository.insertAndAddToGiftCertificate(insertedCertificate.getId(), tag))
                 .toList();
         insertedCertificate.setTags(insertedTags);
         return insertedCertificate;
