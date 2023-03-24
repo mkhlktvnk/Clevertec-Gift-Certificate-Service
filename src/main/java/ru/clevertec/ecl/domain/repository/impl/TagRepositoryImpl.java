@@ -4,14 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.clevertec.ecl.domain.constant.column.TagColumns;
 import ru.clevertec.ecl.domain.entity.Tag;
-import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
 import ru.clevertec.ecl.domain.query.TagQueries;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -44,11 +49,29 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Tag insert(Tag tag) {
-        return null;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        try {
+            jdbcTemplate.update(con -> {
+                PreparedStatement ps = con.prepareStatement(TagQueries.INSERT,
+                        Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, tag.getName());
+                return ps;
+            }, keyHolder);
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return mapInsertResult(keyHolder.getKeys());
     }
 
     @Override
     public void delete(Long id) {
 
+    }
+
+    private Tag mapInsertResult(Map<String, Object> map) {
+        return Tag.builder()
+                .id((Long) map.get(TagColumns.ID))
+                .name((String) map.get(TagColumns.NAME))
+                .build();
     }
 }
