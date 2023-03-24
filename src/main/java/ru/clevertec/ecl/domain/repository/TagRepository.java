@@ -9,5 +9,6 @@ public interface TagRepository {
     List<Tag> findAll(int page, int size);
     Optional<Tag> findById(long id);
     Tag insert(Tag tag);
+    Tag addTagToGiftCertificate(long tagCertificateId, Tag tag);
     void delete(Long id);
 }
