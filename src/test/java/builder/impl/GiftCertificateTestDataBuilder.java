@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.With;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
+import ru.clevertec.ecl.domain.entity.Tag;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @With
 @AllArgsConstructor
@@ -21,6 +24,7 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
     private Integer duration = 0;
     private Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
     private Timestamp lastUpdateDate = Timestamp.valueOf(LocalDateTime.now());
+    private List<Tag> tags = new ArrayList<>();
 
     @Override
     public GiftCertificate build() {
@@ -32,6 +36,7 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
                 .duration(duration)
                 .createDate(createDate)
                 .lastUpdateDate(lastUpdateDate)
+                .tags(tags)
                 .build();
     }
 }
