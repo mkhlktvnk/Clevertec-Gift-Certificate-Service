@@ -1,7 +1,7 @@
 package ru.clevertec.ecl.domain.extractor.impl;
 
 import org.springframework.stereotype.Component;
-import ru.clevertec.ecl.domain.columns.GiftCertificateColumns;
+import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.extractor.FieldExtractor;
 
