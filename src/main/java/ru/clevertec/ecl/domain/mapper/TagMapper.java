@@ -2,7 +2,7 @@ package ru.clevertec.ecl.domain.mapper;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import ru.clevertec.ecl.domain.columns.TagColumns;
+import ru.clevertec.ecl.domain.constant.column.TagColumns;
 import ru.clevertec.ecl.domain.entity.Tag;
 
 import java.sql.ResultSet;
