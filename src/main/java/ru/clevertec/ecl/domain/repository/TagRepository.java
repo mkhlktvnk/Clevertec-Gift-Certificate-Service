@@ -11,4 +11,5 @@ public interface TagRepository {
     Tag insert(Tag tag);
     Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag);
     void delete(Long id);
+    boolean existsById(Long id);
 }
