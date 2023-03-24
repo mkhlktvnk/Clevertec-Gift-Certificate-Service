@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.web.mapper.GiftCertificateMapper;
+import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import ru.clevertec.ecl.web.model.GiftCertificateModel;
 
 @RestController
@@ -15,6 +16,11 @@ import ru.clevertec.ecl.web.model.GiftCertificateModel;
 public class GiftCertificateController {
     private final GiftCertificateService giftCertificateService;
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
+
+    @GetMapping("/certificates")
+    public GiftCertificateCriteria getGiftCertificates(@Valid GiftCertificateCriteria criteria) {
+        throw new UnsupportedOperationException();
+    }
 
     @GetMapping("/certificates/{id}")
     public GiftCertificateModel getGiftCertificateById(@PathVariable Long id) {
