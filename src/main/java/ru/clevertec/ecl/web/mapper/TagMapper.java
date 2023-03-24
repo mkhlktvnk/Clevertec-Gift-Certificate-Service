@@ -1,0 +1,11 @@
+package ru.clevertec.ecl.web.mapper;
+
+import org.mapstruct.Mapper;
+import ru.clevertec.ecl.domain.entity.Tag;
+import ru.clevertec.ecl.web.model.TagModel;
+
+@Mapper
+public interface TagMapper {
+    Tag mapToEntity(TagModel model);
+    TagModel mapToModel(Tag entity);
+}
