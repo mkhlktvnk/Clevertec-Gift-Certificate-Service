@@ -35,10 +35,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     public GiftCertificate save(GiftCertificate giftCertificate) {
         GiftCertificate insertedCertificate = giftCertificateRepository.insert(giftCertificate);
-        List<Tag> insertedTags = giftCertificate.getTags().stream()
-                .map(tag -> tagRepository.insertAndAddToGiftCertificate(insertedCertificate.getId(), tag))
-                .toList();
-        insertedCertificate.setTags(insertedTags);
+        if (giftCertificate.getTags() != null) {
+            List<Tag> insertedTags = giftCertificate.getTags().stream()
+                    .map(tag -> tagRepository.insertAndAddToGiftCertificate(insertedCertificate.getId(), tag))
+                    .toList();
+            insertedCertificate.setTags(insertedTags);
+        }
         return insertedCertificate;
     }
 
@@ -47,7 +49,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException("Gift certificate not found!");
         }
-        giftCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
+        if (giftCertificate.getTags() != null) {
+            giftCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
+        }
         giftCertificateRepository.update(id, giftCertificate);
     }
 
