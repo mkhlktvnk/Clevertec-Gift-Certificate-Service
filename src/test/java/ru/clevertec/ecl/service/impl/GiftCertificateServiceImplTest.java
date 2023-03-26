@@ -13,8 +13,11 @@ import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
+import static builder.impl.GiftCertificateTestDataBuilder.*;
+import static builder.impl.TagTestDataBuilder.*;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -34,13 +37,18 @@ class GiftCertificateServiceImplTest {
     private static final Long ID = 1L;
 
     @Test
-    void checkGetByIdShouldReturnExpectedResult() {
-        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate().build();
+    void checkGetByIdShouldReturnExpectedResultAndCallRepository() {
+        List<Tag> tags = List.of(aTag().build());
+        GiftCertificate expected = aGiftCertificate()
+                .withTags(tags)
+                .build();
         doReturn(Optional.of(expected)).when(giftCertificateRepository).findById(ID);
+        doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
         GiftCertificate actual = giftCertificateService.getById(ID);
 
         verify(giftCertificateRepository).findById(ID);
+        verify(tagRepository, times(tags.size())).findByGiftCertificateId(ID);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -54,26 +62,25 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkSaveShouldReturnExpectedResultAndCallBothRepositories() {
-        Tag tag = TagTestDataBuilder.aTag().build();
-        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
-                .withId(ID)
-                .withTags(singletonList(tag))
-                .build();
-        int expectedTagRepositoryCalls = expected.getTags().size();
+        Tag tag = aTag().build();
+        List<Tag> tags = singletonList(tag);
+        GiftCertificate expected = aGiftCertificate().withId(ID).withTags(tags).build();
         doReturn(expected).when(giftCertificateRepository).insert(expected);
+        doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
         GiftCertificate actual = giftCertificateService.save(expected);
 
-        verify(tagRepository, times(expectedTagRepositoryCalls))
+        verify(tagRepository, times(tags.size()))
                 .insertAndAddToGiftCertificate(eq(expected.getId()), eq(tag));
         verify(giftCertificateRepository).insert(expected);
+        verify(tagRepository).findByGiftCertificateId(ID);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void checkUpdateByShouldCallRepositoryTwice() {
-        Tag tag = TagTestDataBuilder.aTag().build();
-        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate()
+        Tag tag = aTag().build();
+        GiftCertificate giftCertificate = aGiftCertificate()
                 .withTags(singletonList(tag))
                 .build();
         int expectedTagRepositoryCalls = giftCertificate.getTags().size();
@@ -89,7 +96,7 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkByIdShouldThrowResourceNotFoundException() {
-        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate().build();
+        GiftCertificate giftCertificate = aGiftCertificate().build();
         doReturn(false).when(giftCertificateRepository).existsById(ID);
 
         assertThatThrownBy(() -> giftCertificateService.updateById(ID, giftCertificate))
