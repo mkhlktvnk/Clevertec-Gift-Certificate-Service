@@ -2,6 +2,7 @@ package ru.clevertec.ecl.domain.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -11,9 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
-import ru.clevertec.ecl.domain.query.creator.QueryCreator;
+import ru.clevertec.ecl.domain.query.creator.GiftCertificateQueryCreator;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
+import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -30,20 +32,12 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
     private final RowMapper<GiftCertificate> mapper;
 
-    private final QueryCreator<GiftCertificate> queryCreator;
+    private final GiftCertificateQueryCreator queryCreator;
 
-    private static final String TABLE = "gift_certificates";
 
     @Override
-    public List<GiftCertificate> findAll(int page, int size) {
-        List<GiftCertificate> giftCertificates;
-        try {
-            giftCertificates = jdbcTemplate.query(GiftCertificateQueries.FIND_ALL_WITH_LIMIT_AND_OFFSET,
-                    new Object[]{size, page}, mapper);
-        } catch (DataAccessException e) {
-            throw new DomainException(e.getMessage(), e);
-        }
-        return giftCertificates;
+    public List<GiftCertificate> findAll(Pageable pageable, GiftCertificateCriteria criteria) {
+        return jdbcTemplate.query(queryCreator.createSearchQuery(pageable, criteria), mapper);
     }
 
     @Override
@@ -80,7 +74,7 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     public void update(Long id, GiftCertificate giftCertificate) {
         try {
             giftCertificate.setId(id);
-            String query = queryCreator.createUpdateQuery(giftCertificate, TABLE);
+            String query = queryCreator.createUpdateQuery(giftCertificate);
             jdbcTemplate.update(query);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
