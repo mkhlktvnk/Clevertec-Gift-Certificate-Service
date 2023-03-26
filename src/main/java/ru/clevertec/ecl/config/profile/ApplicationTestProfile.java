@@ -6,6 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @Profile("test")
-@PropertySource("classpath:application-test.properties")
+@PropertySource("classpath:application-test.yaml")
 public class ApplicationTestProfile {
 }
