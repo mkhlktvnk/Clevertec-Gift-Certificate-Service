@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.web.config;
+package ru.clevertec.ecl.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import java.util.List;
 @EnableWebMvc
 @EnableSpringDataWebSupport
 @ComponentScan("ru.clevertec.ecl")
-public class AppConfig implements WebMvcConfigurer {
+public class AppWebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add( new PageableHandlerMethodArgumentResolver());
