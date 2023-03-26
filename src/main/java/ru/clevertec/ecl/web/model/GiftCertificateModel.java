@@ -2,10 +2,10 @@ package ru.clevertec.ecl.web.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,6 +36,14 @@ public class GiftCertificateModel {
     @Min(1)
     @JsonProperty("duration")
     private Integer duration;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonProperty(value = "createDate", access = JsonProperty.Access.READ_ONLY)
+    private String createDate;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonProperty(value = "lastUpdateDate", access = JsonProperty.Access.READ_ONLY)
+    private String lastUpdateDate;
 
     @JsonProperty("tags")
     private List<TagModel> tagModels;
