@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.web.config;
+package ru.clevertec.ecl.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -10,7 +10,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] { AppConfig.class };
+        return new Class[] { AppWebConfig.class };
     }
 
     @Override
