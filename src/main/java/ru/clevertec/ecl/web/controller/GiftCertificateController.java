@@ -24,7 +24,7 @@ public class GiftCertificateController {
     @GetMapping("/certificates")
     public List<GiftCertificateModel> getGiftCertificates(
             @PageableDefault Pageable pageable, @Valid GiftCertificateCriteria criteria) {
-        throw new UnsupportedOperationException();
+        return mapper.mapToModel(giftCertificateService.getGiftCertificates(pageable, criteria));
     }
 
     @GetMapping("/certificates/{id}")
