@@ -1,8 +1,12 @@
 package ru.clevertec.ecl.service;
 
+import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
 
+import java.util.List;
+
 public interface TagService {
+    List<Tag> getTags(Pageable pageable);
     Tag getById(long id);
     Tag insert(Tag tag);
     Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag);
