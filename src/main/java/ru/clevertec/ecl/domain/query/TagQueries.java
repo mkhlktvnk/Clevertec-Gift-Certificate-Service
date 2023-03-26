@@ -15,4 +15,8 @@ public class TagQueries {
 
     public static final String ADD_TAG_TO_GIFT_CERTIFICATE = "INSERT INTO gift_certificates_tags " +
             "(gift_certificate_id, tag_id) VALUES(?, ?);";
+
+    public static final String FIND_TAGS_BY_GIFT_CERTIFICATE_ID = "SELECT tags.id, name FROM tags " +
+            "JOIN gift_certificates_tags ON tags.id = gift_certificates_tags.tag_id " +
+            "WHERE gift_certificates_tags.gift_certificate_id=?;";
 }
