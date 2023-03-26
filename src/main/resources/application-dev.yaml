@@ -1,6 +1,6 @@
 datasource:
-  url=jdbc:postgresql://localhost:5432/ecl
-  username=user
-  password=user
-  driver=org.postgresql.Driver
-  connections=10
+  url: jdbc:postgresql://localhost:5432/ecl
+  username: user
+  password: user
+  driver: org.postgresql.Driver
+  connections: 10
