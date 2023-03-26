@@ -1,5 +1,6 @@
 package ru.clevertec.ecl.service.impl;
 
+import builder.impl.GiftCertificateCriteriaTestDataBuilder;
 import builder.impl.GiftCertificateTestDataBuilder;
 import builder.impl.TagTestDataBuilder;
 import org.junit.jupiter.api.Test;
@@ -7,17 +8,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
 import java.util.Optional;
 
-import static builder.impl.GiftCertificateTestDataBuilder.*;
-import static builder.impl.TagTestDataBuilder.*;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -37,9 +39,25 @@ class GiftCertificateServiceImplTest {
     private static final Long ID = 1L;
 
     @Test
+    void checkGetGiftCertificatesShouldReturnExpectedResultAndCallRepository() {
+        Pageable pageable = PageRequest.of(0, 1);
+        GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria().build();
+        List<GiftCertificate> expected = List.of(GiftCertificateTestDataBuilder.aGiftCertificate().build());
+        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
+        doReturn(expected).when(giftCertificateRepository).findAll(pageable, criteria);
+        doReturn(tags).when(tagRepository).findByGiftCertificateId(anyLong());
+
+        List<GiftCertificate> actual = giftCertificateService.getGiftCertificates(pageable, criteria);
+
+        verify(giftCertificateRepository).findAll(pageable, criteria);
+        verify(tagRepository).findByGiftCertificateId(anyLong());
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     void checkGetByIdShouldReturnExpectedResultAndCallRepository() {
-        List<Tag> tags = List.of(aTag().build());
-        GiftCertificate expected = aGiftCertificate()
+        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
+        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
                 .withTags(tags)
                 .build();
         doReturn(Optional.of(expected)).when(giftCertificateRepository).findById(ID);
@@ -62,9 +80,10 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkSaveShouldReturnExpectedResultAndCallBothRepositories() {
-        Tag tag = aTag().build();
+        Tag tag = TagTestDataBuilder.aTag().build();
         List<Tag> tags = singletonList(tag);
-        GiftCertificate expected = aGiftCertificate().withId(ID).withTags(tags).build();
+        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
+                .withId(ID).withTags(tags).build();
         doReturn(expected).when(giftCertificateRepository).insert(expected);
         doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
@@ -79,8 +98,8 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkUpdateByShouldCallRepositoryTwice() {
-        Tag tag = aTag().build();
-        GiftCertificate giftCertificate = aGiftCertificate()
+        Tag tag = TagTestDataBuilder.aTag().build();
+        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate()
                 .withTags(singletonList(tag))
                 .build();
         int expectedTagRepositoryCalls = giftCertificate.getTags().size();
@@ -96,7 +115,7 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkByIdShouldThrowResourceNotFoundException() {
-        GiftCertificate giftCertificate = aGiftCertificate().build();
+        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate().build();
         doReturn(false).when(giftCertificateRepository).existsById(ID);
 
         assertThatThrownBy(() -> giftCertificateService.updateById(ID, giftCertificate))
