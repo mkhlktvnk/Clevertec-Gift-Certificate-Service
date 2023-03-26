@@ -22,7 +22,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
-        throw new UnsupportedOperationException();
+        return giftCertificateRepository.findAll(pageable, criteria);
     }
 
     @Override
