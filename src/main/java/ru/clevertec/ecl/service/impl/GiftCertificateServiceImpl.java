@@ -12,7 +12,6 @@ import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
-import java.net.IDN;
 import java.util.List;
 
 @Service
