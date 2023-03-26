@@ -6,11 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,6 +33,18 @@ class TagServiceImplTest {
     private TagServiceImpl tagService;
 
     private static final Long ID = 1L;
+
+    @Test
+    void checkGetTagsShouldCallRepositoryAndReturnExpectedResult() {
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
+        doReturn(expected).when(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
+
+        List<Tag> actual = tagService.getTags(pageable);
+
+        verify(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
+        assertThat(actual).isEqualTo(expected);
+    }
 
     @Test
     void checkGetByIdShouldReturnExpectedResult() {
