@@ -22,13 +22,19 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
-        return giftCertificateRepository.findAll(pageable, criteria);
+        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAll(pageable, criteria);
+        giftCertificates.forEach(giftCertificate ->
+            giftCertificate.setTags(tagRepository.findByGiftCertificateId(giftCertificate.getId()))
+        );
+        return giftCertificates;
     }
 
     @Override
     public GiftCertificate getById(long id) {
-        return giftCertificateRepository.findById(id)
+        GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Gift certificate not found!"));
+        giftCertificate.setTags(tagRepository.findByGiftCertificateId(id));
+        return giftCertificate;
     }
 
     @Override
@@ -41,6 +47,8 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                     .toList();
             insertedCertificate.setTags(insertedTags);
         }
+        List<Tag> tags = tagRepository.findByGiftCertificateId(insertedCertificate.getId());
+        insertedCertificate.setTags(tags);
         return insertedCertificate;
     }
 
