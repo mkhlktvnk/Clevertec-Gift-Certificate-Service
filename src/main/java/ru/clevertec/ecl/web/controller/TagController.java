@@ -3,11 +3,15 @@ package ru.clevertec.ecl.web.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.web.mapper.TagMapper;
 import ru.clevertec.ecl.web.model.TagModel;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v0")
@@ -15,6 +19,11 @@ import ru.clevertec.ecl.web.model.TagModel;
 public class TagController {
     private final TagService tagService;
     private final TagMapper mapper = Mappers.getMapper(TagMapper.class);
+
+    @GetMapping("/tags")
+    public List<TagModel> getTags(@PageableDefault Pageable pageable) {
+        return mapper.mapToModel(tagService.getTags(pageable));
+    }
 
     @GetMapping("/tags/{id}")
     public TagModel getTagById(@PathVariable Long id) {
