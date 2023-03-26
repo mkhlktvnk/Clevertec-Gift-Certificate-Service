@@ -64,19 +64,19 @@ public class GiftCertificateQueryCreator {
     }
 
     private void addSearchParamWithFullMatch(StringBuilder query, String table, String column, String value) {
-        checkConditionKeyword(query);
+        addWhereKeyword(query);
         addParamName(query, table, column);
         query.append("=").append("'").append(value).append("'");
     }
 
     private void addSearchParamWithPartialMatch(StringBuilder query, String table, String column, String value) {
-        checkConditionKeyword(query);
+        addWhereKeyword(query);
         addParamName(query, table, column);
         query.append(" LIKE ").append("'%").append(value).append("%'");
     }
 
     private void addSortParam(StringBuilder query, String table, String column, String direction) {
-        checkOrderKeyword(query);
+        addOrderKeyword(query);
         addParamName(query, table, column);
         query.append(" ").append(direction);
     }
@@ -85,7 +85,7 @@ public class GiftCertificateQueryCreator {
         query.append(table).append(".").append(column);
     }
 
-    private void checkConditionKeyword(StringBuilder query) {
+    private void addWhereKeyword(StringBuilder query) {
         if (query.toString().contains("WHERE")) {
             query.append(" AND ");
         } else {
@@ -93,7 +93,7 @@ public class GiftCertificateQueryCreator {
         }
     }
 
-    private void checkOrderKeyword(StringBuilder query) {
+    private void addOrderKeyword(StringBuilder query) {
         if (query.toString().contains("ORDER BY")) {
             query.append(", ");
         } else {
