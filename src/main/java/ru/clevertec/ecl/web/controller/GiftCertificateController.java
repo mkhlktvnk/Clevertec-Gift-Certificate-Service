@@ -3,12 +3,16 @@ package ru.clevertec.ecl.web.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.web.mapper.GiftCertificateMapper;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import ru.clevertec.ecl.web.model.GiftCertificateModel;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v0")
@@ -18,7 +22,8 @@ public class GiftCertificateController {
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
 
     @GetMapping("/certificates")
-    public GiftCertificateCriteria getGiftCertificates(@Valid GiftCertificateCriteria criteria) {
+    public List<GiftCertificateModel> getGiftCertificates(
+            @PageableDefault Pageable pageable, @Valid GiftCertificateCriteria criteria) {
         throw new UnsupportedOperationException();
     }
 
