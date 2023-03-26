@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Builder
 @Getter
+@Setter
+@NoArgsConstructor
 public class GiftCertificateModel {
     @NotNull
     @Min(0)
