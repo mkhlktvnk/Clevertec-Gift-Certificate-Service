@@ -38,6 +38,17 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public List<Tag> findByGiftCertificateId(long id) {
+        List<Tag> tags;
+        try {
+            tags = jdbcTemplate.query(TagQueries.FIND_TAGS_BY_GIFT_CERTIFICATE_ID, new Object[] { id }, mapper);
+        } catch (DataAccessException e) {
+            throw new DomainException(e.getMessage(), e);
+        }
+        return tags;
+    }
+
+    @Override
     public Optional<Tag> findById(long id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(TagQueries.FIND_BY_ID,

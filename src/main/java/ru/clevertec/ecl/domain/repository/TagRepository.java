@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface TagRepository {
     List<Tag> findAll(int page, int size);
+    List<Tag> findByGiftCertificateId(long id);
     Optional<Tag> findById(long id);
     Tag insert(Tag tag);
     Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag);
