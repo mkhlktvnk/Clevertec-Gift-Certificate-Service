@@ -1,6 +1,7 @@
 package ru.clevertec.ecl.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
@@ -9,6 +10,7 @@ import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.net.IDN;
 import java.util.List;
@@ -18,6 +20,11 @@ import java.util.List;
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateRepository giftCertificateRepository;
     private final TagRepository tagRepository;
+
+    @Override
+    public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
+        throw new UnsupportedOperationException();
+    }
 
     @Override
     public GiftCertificate getById(long id) {
