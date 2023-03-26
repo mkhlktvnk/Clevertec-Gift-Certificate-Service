@@ -20,7 +20,7 @@ import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -110,8 +110,8 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
                 .description((String) map.get(GiftCertificateColumns.DESCRIPTION))
                 .price((BigDecimal) map.get(GiftCertificateColumns.PRICE))
                 .duration((Integer) map.get(GiftCertificateColumns.DURATION))
-                .createDate((Timestamp) map.get(GiftCertificateColumns.CREATE_DATE))
-                .lastUpdateDate((Timestamp) map.get(GiftCertificateColumns.LAST_UPDATE_DATE))
+                .createDate((LocalDateTime) map.get(GiftCertificateColumns.CREATE_DATE))
+                .lastUpdateDate((LocalDateTime) map.get(GiftCertificateColumns.LAST_UPDATE_DATE))
                 .build();
     }
 }

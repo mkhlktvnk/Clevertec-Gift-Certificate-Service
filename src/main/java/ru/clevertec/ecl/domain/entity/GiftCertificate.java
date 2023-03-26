@@ -3,7 +3,7 @@ package ru.clevertec.ecl.domain.entity;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -17,7 +17,7 @@ public class GiftCertificate {
     private String description;
     private BigDecimal price;
     private Integer duration;
-    private Timestamp createDate;
-    private Timestamp lastUpdateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime lastUpdateDate;
     private List<Tag> tags;
 }

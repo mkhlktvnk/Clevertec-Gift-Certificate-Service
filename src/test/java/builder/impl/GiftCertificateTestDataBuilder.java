@@ -22,8 +22,8 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
     private String description = "";
     private BigDecimal price = BigDecimal.ZERO;
     private Integer duration = 0;
-    private Timestamp createDate = Timestamp.valueOf(LocalDateTime.now());
-    private Timestamp lastUpdateDate = Timestamp.valueOf(LocalDateTime.now());
+    private LocalDateTime createDate = LocalDateTime.now();
+    private LocalDateTime lastUpdateDate = LocalDateTime.now();
     private List<Tag> tags = new ArrayList<>();
 
     @Override

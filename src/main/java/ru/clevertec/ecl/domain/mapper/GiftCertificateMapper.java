@@ -7,6 +7,7 @@ import ru.clevertec.ecl.domain.entity.GiftCertificate;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 @Component
 public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
@@ -18,8 +19,8 @@ public class GiftCertificateMapper implements RowMapper<GiftCertificate> {
                 .description(rs.getString(GiftCertificateColumns.DESCRIPTION))
                 .price(rs.getBigDecimal(GiftCertificateColumns.PRICE))
                 .duration(rs.getInt(GiftCertificateColumns.DURATION))
-                .createDate(rs.getTimestamp(GiftCertificateColumns.CREATE_DATE))
-                .lastUpdateDate(rs.getTimestamp(GiftCertificateColumns.LAST_UPDATE_DATE))
+                .createDate(rs.getObject(GiftCertificateColumns.CREATE_DATE, LocalDateTime.class))
+                .lastUpdateDate(rs.getObject(GiftCertificateColumns.LAST_UPDATE_DATE, LocalDateTime.class))
                 .build();
     }
 }
