@@ -3,6 +3,7 @@ package ru.clevertec.ecl.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
@@ -36,6 +37,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag) {
         if (!giftCertificateRepository.existsById(giftCertificateId)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
@@ -44,6 +46,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public void updateById(long id, Tag tag) {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
@@ -52,6 +55,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
