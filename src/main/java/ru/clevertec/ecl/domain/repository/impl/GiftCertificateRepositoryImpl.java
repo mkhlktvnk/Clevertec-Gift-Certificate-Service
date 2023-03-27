@@ -119,8 +119,8 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
                 .description((String) map.get(GiftCertificateColumns.DESCRIPTION))
                 .price((BigDecimal) map.get(GiftCertificateColumns.PRICE))
                 .duration((Integer) map.get(GiftCertificateColumns.DURATION))
-                .createDate(createDate.toLocalDateTime())
-                .lastUpdateDate(lastUpdateDate.toLocalDateTime())
+                .createDate(createDate.toInstant())
+                .lastUpdateDate(lastUpdateDate.toInstant())
                 .build();
     }
 }
