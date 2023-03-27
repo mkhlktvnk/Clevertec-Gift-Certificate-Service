@@ -56,7 +56,6 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     }
 
     @Override
-    @Transactional
     public GiftCertificate insert(GiftCertificate giftCertificate) {
         try {
             KeyHolder keyHolder = new GeneratedKeyHolder();
