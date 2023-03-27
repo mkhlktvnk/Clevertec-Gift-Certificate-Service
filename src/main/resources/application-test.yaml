@@ -1,6 +1,0 @@
-datasource:
-  driver: org.h2.Driver
-  url: jdbc:h2:mem:ecl
-  username: username
-  password: password
-  connections: 10

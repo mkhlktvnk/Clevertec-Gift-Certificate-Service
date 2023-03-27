@@ -12,6 +12,7 @@ import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.message.TagMessages;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,9 @@ class TagServiceImplTest {
 
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
+
+    @Mock
+    private TagMessages tagMessages;
 
     @InjectMocks
     private TagServiceImpl tagService;
