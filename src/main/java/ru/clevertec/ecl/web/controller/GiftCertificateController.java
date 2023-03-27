@@ -33,16 +33,10 @@ public class GiftCertificateController {
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
 
     @GetMapping("/certificates")
-    public List<GiftCertificateModel> findAllByPageable(@PageableDefault Pageable pageable) {
-        List<GiftCertificate> giftCertificates = giftCertificateService.findAllByPageable(pageable);
-        return mapper.mapToModel(giftCertificates);
-    }
-
-    @GetMapping("/certificates")
     public List<GiftCertificateModel> findAllBySortAndCriteria(
-            @SortDefault Sort sort, @Valid GiftCertificateCriteria criteria) {
-        List<GiftCertificate> giftCertificates = giftCertificateService.findAllBySortAndCriteria(sort, criteria);
-        return mapper.mapToModel(giftCertificates);
+            @PageableDefault Pageable pageable, @Valid GiftCertificateCriteria criteria) {
+        List<GiftCertificate> certificates = giftCertificateService.findAllByPageableAndCriteria(pageable, criteria);
+        return mapper.mapToModel(certificates);
     }
 
     @GetMapping("/certificates/{id}")
