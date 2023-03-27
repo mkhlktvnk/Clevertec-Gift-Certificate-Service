@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain.repository;
+package ru.clevertec.ecl.domain.repository.intergration;
 
 import builder.impl.GiftCertificateCriteriaTestDataBuilder;
 import builder.impl.GiftCertificateTestDataBuilder;
@@ -17,6 +17,7 @@ import ru.clevertec.ecl.domain.extractor.FieldExtractor;
 import ru.clevertec.ecl.domain.extractor.impl.GiftCertificateFieldExtractor;
 import ru.clevertec.ecl.domain.mapper.GiftCertificateMapper;
 import ru.clevertec.ecl.domain.query.creator.GiftCertificateQueryCreator;
+import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.impl.GiftCertificateRepositoryImpl;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
