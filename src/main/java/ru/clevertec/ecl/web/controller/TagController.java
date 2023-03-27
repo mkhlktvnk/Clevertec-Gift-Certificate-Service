@@ -21,29 +21,29 @@ public class TagController {
     private final TagMapper mapper = Mappers.getMapper(TagMapper.class);
 
     @GetMapping("/tags")
-    public List<TagModel> getTags(@PageableDefault Pageable pageable) {
+    public List<TagModel> findAllByPageable(@PageableDefault Pageable pageable) {
         return mapper.mapToModel(tagService.findAllByPageable(pageable));
     }
 
     @GetMapping("/tags/{id}")
-    public TagModel getTagById(@PathVariable Long id) {
+    public TagModel findById(@PathVariable Long id) {
         return mapper.mapToModel(tagService.findById(id));
     }
 
     @PostMapping("/tags")
-    public TagModel saveTag(@Valid @RequestBody TagModel tagModel) {
+    public TagModel save(@Valid @RequestBody TagModel tagModel) {
         return mapper.mapToModel(tagService.insert(mapper.mapToEntity(tagModel)));
     }
 
     @PutMapping("/tags/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTagById(@PathVariable Long id, @Valid @RequestBody TagModel tagModel) {
+    public void updateById(@PathVariable Long id, @Valid @RequestBody TagModel tagModel) {
         tagService.updateById(id, mapper.mapToEntity(tagModel));
     }
 
     @DeleteMapping("/tags/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTagById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         tagService.deleteById(id);
     }
 }
