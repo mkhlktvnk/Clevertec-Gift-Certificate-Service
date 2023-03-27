@@ -43,6 +43,22 @@ class GiftCertificateServiceImplTest {
     private static final Long ID = 1L;
 
     @Test
+    void checkGetByPageableAndCriteriaShouldReturnExpectedResultAndCallRepository() {
+        Pageable pageable = PageRequest.of(0, 1);
+        GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria().build();
+        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
+        List<GiftCertificate> expected = List.of(GiftCertificateTestDataBuilder.aGiftCertificate().build());
+        doReturn(expected).when(giftCertificateRepository).findAll(pageable, criteria);
+        doReturn(tags).when(tagRepository).findByGiftCertificateId(anyLong());
+
+        List<GiftCertificate> actual = giftCertificateService.findAllByPageableAndCriteria(pageable, criteria);
+
+        verify(giftCertificateRepository).findAll(pageable, criteria);
+        verify(tagRepository, times(tags.size())).findByGiftCertificateId(anyLong());
+        assertThat(actual).isEqualTo(expected);
+    }
+
+    @Test
     void checkGetByIdShouldReturnExpectedResultAndCallRepository() {
         List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
         GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
