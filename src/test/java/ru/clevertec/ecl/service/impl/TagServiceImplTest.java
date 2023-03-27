@@ -44,7 +44,7 @@ class TagServiceImplTest {
         List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
         doReturn(expected).when(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
 
-        List<Tag> actual = tagService.getTags(pageable);
+        List<Tag> actual = tagService.findAllByPageable(pageable);
 
         verify(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
         assertThat(actual).isEqualTo(expected);
@@ -55,7 +55,7 @@ class TagServiceImplTest {
         Tag expected = TagTestDataBuilder.aTag().build();
         doReturn(Optional.of(expected)).when(tagRepository).findById(ID);
 
-        Tag actual = tagService.getById(ID);
+        Tag actual = tagService.findById(ID);
 
         verify(tagRepository).findById(ID);
         assertThat(actual).isEqualTo(expected);
@@ -65,7 +65,7 @@ class TagServiceImplTest {
     void checkGetByIdShouldThrowResourceNotFoundException() {
         doReturn(Optional.empty()).when(tagRepository).findById(ID);
 
-        assertThatThrownBy(() -> tagService.getById(ID))
+        assertThatThrownBy(() -> tagService.findById(ID))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 

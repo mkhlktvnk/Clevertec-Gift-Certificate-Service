@@ -22,12 +22,12 @@ public class TagController {
 
     @GetMapping("/tags")
     public List<TagModel> getTags(@PageableDefault Pageable pageable) {
-        return mapper.mapToModel(tagService.getTags(pageable));
+        return mapper.mapToModel(tagService.findAllByPageable(pageable));
     }
 
     @GetMapping("/tags/{id}")
     public TagModel getTagById(@PathVariable Long id) {
-        return mapper.mapToModel(tagService.getById(id));
+        return mapper.mapToModel(tagService.findById(id));
     }
 
     @PostMapping("/tags")

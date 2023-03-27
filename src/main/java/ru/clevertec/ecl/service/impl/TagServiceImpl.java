@@ -21,12 +21,12 @@ public class TagServiceImpl implements TagService {
     private final TagMessages tagMessages;
 
     @Override
-    public List<Tag> getTags(Pageable pageable) {
+    public List<Tag> findAllByPageable(Pageable pageable) {
         return tagRepository.findAll(pageable.getPageNumber(), pageable.getPageSize());
     }
 
     @Override
-    public Tag getById(long id) {
+    public Tag findById(long id) {
         return tagRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
     }

@@ -6,8 +6,8 @@ import ru.clevertec.ecl.domain.entity.Tag;
 import java.util.List;
 
 public interface TagService {
-    List<Tag> getTags(Pageable pageable);
-    Tag getById(long id);
+    List<Tag> findAllByPageable(Pageable pageable);
+    Tag findById(long id);
     Tag insert(Tag tag);
     Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag);
     void updateById(long id, Tag tag);
