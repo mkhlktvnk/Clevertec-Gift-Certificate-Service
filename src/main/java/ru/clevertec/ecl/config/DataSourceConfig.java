@@ -5,19 +5,21 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
 @Configuration
+@Profile("dev")
 public class DataSourceConfig {
-    @Value("${datasource.url}")
+    @Value("classpath:datasource:url")
     private String datasourceUrl;
 
-    @Value("${datasource.username}")
+    @Value("classpath:datasource.username")
     private String datasourceUsername;
 
-    @Value("${datasource.password}")
+    @Value("classpath:datasource.password")
     private String datasourcePassword;
 
     @Value("${datasource.driver}")
@@ -26,10 +28,10 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(datasourceUrl);
-        hikariConfig.setUsername(datasourceUsername);
-        hikariConfig.setPassword(datasourcePassword);
-        hikariConfig.setDriverClassName(datasourceDriver);
+        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/ecl");
+        hikariConfig.setUsername("user");
+        hikariConfig.setPassword("user");
+        hikariConfig.setDriverClassName("org.postgresql.Driver");
         return new HikariDataSource(hikariConfig);
     }
 
