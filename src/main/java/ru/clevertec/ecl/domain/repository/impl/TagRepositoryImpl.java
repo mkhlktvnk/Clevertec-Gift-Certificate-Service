@@ -28,7 +28,7 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public List<Tag> findAll(int page, int size) {
         try {
-            return jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, mapper, page, size);
+            return jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, mapper, size, page);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
@@ -37,7 +37,7 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public List<Tag> findByGiftCertificateId(long id) {
         try {
-            return jdbcTemplate.query(TagQueries.FIND_TAGS_BY_GIFT_CERTIFICATE_ID, new Object[] { id }, mapper);
+            return jdbcTemplate.query(TagQueries.FIND_TAGS_BY_GIFT_CERTIFICATE_ID, mapper, id);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
