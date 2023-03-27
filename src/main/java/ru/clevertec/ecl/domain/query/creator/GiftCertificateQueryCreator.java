@@ -35,6 +35,13 @@ public class GiftCertificateQueryCreator {
         return "UPDATE " + GIFT_CERTIFICATES_TABLE + " SET " + joiner + " WHERE " + GiftCertificateColumns.ID + " = " + id;
     }
 
+    public String createSearchQuery(Pageable pageable, GiftCertificateCriteria criteria) {
+        String searchQuery = createSearchQuery(pageable.getSort(), criteria);
+        StringBuilder query = new StringBuilder(searchQuery);
+        addLimitAndOffset(query, GIFT_CERTIFICATES_TABLE, pageable.getPageSize(), pageable.getPageNumber());
+        return query.toString();
+    }
+
     public String createSearchQuery(Sort sort, GiftCertificateCriteria criteria) {
         StringBuilder query = new StringBuilder(GiftCertificateQueries.FIND_ALL);
 
@@ -65,6 +72,11 @@ public class GiftCertificateQueryCreator {
                 .append(" OFFSET ").append(pageable.getOffset());
 
         return query.toString();
+    }
+
+    private void addLimitAndOffset(StringBuilder query, String table, int limit, int offset) {
+        query.append(" LIMIT ").append(limit)
+                .append(" OFFSET ").append(offset);
     }
 
     private void addSortParams(StringBuilder query, String table, Sort sort) {
