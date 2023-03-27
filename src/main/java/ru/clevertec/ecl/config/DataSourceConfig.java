@@ -23,17 +23,13 @@ public class DataSourceConfig {
     @Value("${datasource.driver}")
     private String datasourceDriver;
 
-    @Value("${datasource.connections}")
-    private Integer datasourceConnections;
-
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(datasourceUrl);
-        hikariConfig.setUsername(datasourceUsername);
-        hikariConfig.setPassword(datasourcePassword);
-        hikariConfig.setDriverClassName(datasourceDriver);
-        hikariConfig.setMaximumPoolSize(datasourceConnections);
+        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/ecl");
+        hikariConfig.setUsername("user");
+        hikariConfig.setPassword("user");
+        hikariConfig.setDriverClassName("org.postgresql.Driver");
         return new HikariDataSource(hikariConfig);
     }
 

@@ -20,6 +20,7 @@ import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;

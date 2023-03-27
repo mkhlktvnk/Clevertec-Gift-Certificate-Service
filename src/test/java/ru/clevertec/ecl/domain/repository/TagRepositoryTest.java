@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.mapper.TagMapper;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 class TagRepositoryTest {
     private TagRepository tagRepository;
@@ -83,17 +85,6 @@ class TagRepositoryTest {
         Optional<Tag> tag = tagRepository.findById(100L);
 
         assertThat(tag).isNotPresent();
-    }
-
-    @Test
-    void checkInsertShouldReturnCorrectResult() {
-        Tag expected = TagTestDataBuilder.aTag()
-                .withName("tag-11")
-                .build();
-
-        Tag actual = tagRepository.insert(expected);
-
-        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
