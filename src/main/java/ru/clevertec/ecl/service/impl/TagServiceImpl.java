@@ -8,6 +8,7 @@ import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.message.TagMessages;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
     private final GiftCertificateRepository giftCertificateRepository;
+    private final TagMessages tagMessages;
 
     @Override
     public List<Tag> getTags(Pageable pageable) {
@@ -25,7 +27,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag getById(long id) {
         return tagRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Tag not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
     }
 
     @Override
@@ -36,7 +38,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag) {
         if (!giftCertificateRepository.existsById(giftCertificateId)) {
-            throw new ResourceNotFoundException("Gift certificate not found!");
+            throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
         return tagRepository.insertAndAddToGiftCertificate(giftCertificateId, tag);
     }
@@ -44,7 +46,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void updateById(long id, Tag tag) {
         if (!tagRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Tag not found!");
+            throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
         tagRepository.update(id, tag);
     }
@@ -52,7 +54,7 @@ public class TagServiceImpl implements TagService {
     @Override
     public void deleteById(long id) {
         if (!tagRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Tag not found!");
+            throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
         tagRepository.delete(id);
     }
