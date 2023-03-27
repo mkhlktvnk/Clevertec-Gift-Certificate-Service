@@ -19,9 +19,6 @@ import static ru.clevertec.ecl.domain.constant.table.Tables.TAGS_TABLE;
 @Component
 @RequiredArgsConstructor
 public class GiftCertificateQueryCreator {
-    private static final String JOIN = "LEFT JOIN gift_certificates_tags ON" +
-            " gift_certificates.id = gift_certificates_tags.gift_certificate_id " +
-            "LEFT JOIN tags ON tags.id = gift_certificates_tags.tag_id";
     private final FieldExtractor<GiftCertificate> extractor;
 
     public String createUpdateQuery(GiftCertificate object) {
@@ -41,7 +38,7 @@ public class GiftCertificateQueryCreator {
         StringBuilder query = new StringBuilder(GiftCertificateQueries.FIND_ALL);
 
         if (criteria.getTagName() != null) {
-            query.append(" ").append(JOIN);
+            query.append(" ").append(GiftCertificateQueries.JOIN_ON_TAGS);
             addSearchParamWithFullMatch(query, TAGS_TABLE, TagColumns.NAME, criteria.getTagName());
         }
         if (criteria.getName() != null) {
