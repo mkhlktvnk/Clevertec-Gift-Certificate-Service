@@ -28,10 +28,10 @@ public class DataSourceConfig {
     @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl("jdbc:postgresql://localhost:5432/ecl");
-        hikariConfig.setUsername("user");
-        hikariConfig.setPassword("user");
-        hikariConfig.setDriverClassName("org.postgresql.Driver");
+        hikariConfig.setJdbcUrl(datasourceUrl);
+        hikariConfig.setUsername(datasourceUsername);
+        hikariConfig.setPassword(datasourcePassword);
+        hikariConfig.setDriverClassName(datasourceDriver);
         return new HikariDataSource(hikariConfig);
     }
 
