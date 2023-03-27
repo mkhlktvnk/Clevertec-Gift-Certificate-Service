@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain.repository;
+package ru.clevertec.ecl.domain.repository.intergration;
 
 import builder.impl.TagTestDataBuilder;
 import org.junit.jupiter.api.AfterEach;
@@ -10,6 +10,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.mapper.TagMapper;
+import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
 import ru.clevertec.ecl.domain.repository.impl.TagRepositoryImpl;
 
