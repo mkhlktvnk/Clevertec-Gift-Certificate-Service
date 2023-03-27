@@ -24,7 +24,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
-        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAll(pageable, criteria);
+        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllByCriteria(pageable, criteria);
         giftCertificates.forEach(giftCertificate ->
             giftCertificate.setTags(tagRepository.findByGiftCertificateId(giftCertificate.getId()))
         );

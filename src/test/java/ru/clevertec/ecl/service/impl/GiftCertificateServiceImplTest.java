@@ -16,7 +16,6 @@ import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
-import ru.clevertec.ecl.service.message.TagMessages;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
@@ -49,12 +48,12 @@ class GiftCertificateServiceImplTest {
         GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria().build();
         List<GiftCertificate> expected = List.of(GiftCertificateTestDataBuilder.aGiftCertificate().build());
         List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
-        doReturn(expected).when(giftCertificateRepository).findAll(pageable, criteria);
+        doReturn(expected).when(giftCertificateRepository).findAllByCriteria(pageable, criteria);
         doReturn(tags).when(tagRepository).findByGiftCertificateId(anyLong());
 
         List<GiftCertificate> actual = giftCertificateService.getGiftCertificates(pageable, criteria);
 
-        verify(giftCertificateRepository).findAll(pageable, criteria);
+        verify(giftCertificateRepository).findAllByCriteria(pageable, criteria);
         verify(tagRepository).findByGiftCertificateId(anyLong());
         assertThat(actual).isEqualTo(expected);
     }

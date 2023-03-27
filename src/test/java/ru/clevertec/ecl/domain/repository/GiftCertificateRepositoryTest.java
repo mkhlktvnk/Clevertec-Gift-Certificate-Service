@@ -66,7 +66,7 @@ class GiftCertificateRepositoryTest {
                 .withTagName("name-1")
                 .build();
 
-        List<GiftCertificate> certificates = repository.findAll(pageable, criteria);
+        List<GiftCertificate> certificates = repository.findAllByCriteria(pageable, criteria);
 
         assertThat(certificates).isNotEmpty();
     }
@@ -81,7 +81,7 @@ class GiftCertificateRepositoryTest {
                 .withTagName("tag-name-that-not-exists")
                 .build();
 
-        List<GiftCertificate> certificates = repository.findAll(pageable, criteria);
+        List<GiftCertificate> certificates = repository.findAllByCriteria(pageable, criteria);
 
         assertThat(certificates).isEmpty();
     }
