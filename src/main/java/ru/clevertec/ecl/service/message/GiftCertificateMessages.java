@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.service;
+package ru.clevertec.ecl.service.message;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
