@@ -27,25 +27,21 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> findAll(int page, int size) {
-        List<Tag> tags;
         try {
-            tags = jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET,
+            return jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET,
                     new Object[]{ size, page }, mapper);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return tags;
     }
 
     @Override
     public List<Tag> findByGiftCertificateId(long id) {
-        List<Tag> tags;
         try {
-            tags = jdbcTemplate.query(TagQueries.FIND_TAGS_BY_GIFT_CERTIFICATE_ID, new Object[] { id }, mapper);
+            return jdbcTemplate.query(TagQueries.FIND_TAGS_BY_GIFT_CERTIFICATE_ID, new Object[] { id }, mapper);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return tags;
     }
 
     @Override
@@ -60,31 +56,30 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Tag insert(Tag tag) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(TagQueries.INSERT,
                         Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, tag.getName());
                 return ps;
             }, keyHolder);
+            return mapInsertResult(keyHolder.getKeys());
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return mapInsertResult(keyHolder.getKeys());
     }
 
     @Override
     public Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag) {
-        Tag inserted;
         try {
-            inserted = insert(tag);
+             Tag inserted = insert(tag);
             jdbcTemplate.update(TagQueries.ADD_TAG_TO_GIFT_CERTIFICATE,
                     tagCertificateId, tag.getId());
+            return inserted;
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return inserted;
     }
 
     @Override
@@ -107,15 +102,13 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public boolean existsById(Long id) {
-        boolean isExists;
         try {
             Integer result = jdbcTemplate.queryForObject(TagQueries.SELECT_COUNT_BY_ID,
                     Integer.class, id);
-            isExists = result > 0;
+            return result > 0;
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return isExists;
     }
 
     private Tag mapInsertResult(Map<String, Object> map) {
