@@ -55,6 +55,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
+    @Transactional
     public void updateById(long id, GiftCertificate giftCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
@@ -66,6 +67,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
+    @Transactional
     public void deleteById(long id) {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
