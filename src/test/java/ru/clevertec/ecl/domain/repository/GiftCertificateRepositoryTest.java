@@ -20,9 +20,11 @@ import ru.clevertec.ecl.domain.query.creator.GiftCertificateQueryCreator;
 import ru.clevertec.ecl.domain.repository.impl.GiftCertificateRepositoryImpl;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+import static builder.impl.GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GiftCertificateRepositoryTest {
@@ -40,6 +42,18 @@ class GiftCertificateRepositoryTest {
 
     private static final Long INCORRECT_ID = 1000L;
 
+    private static final GiftCertificateCriteria correctCriteria = aGiftCertificateCriteria()
+            .withName("cert")
+            .withDescription("desc")
+            .withTagName("name-1")
+            .build();
+
+    private static final GiftCertificateCriteria incorrectCriteria = aGiftCertificateCriteria()
+            .withName("incorrect-name")
+            .withDescription("incorrect-description")
+            .withTagName("incorrect-tag-name")
+            .build();
+
     @BeforeEach
     void setUp() {
         dataSource = new EmbeddedDatabaseBuilder()
@@ -53,6 +67,24 @@ class GiftCertificateRepositoryTest {
     @AfterEach
     void clear() {
         dataSource.shutdown();
+    }
+
+    @Test
+    void checkFindAllShouldNotReturnEmptyResult() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<GiftCertificate> actual = repository.findAll(pageable, correctCriteria);
+
+        assertThat(actual).isNotEmpty();
+    }
+
+    @Test
+    void checkFindAllShouldShouldReturnEmptyResult() {
+        Pageable pageable = PageRequest.of(0, 10);
+
+        List<GiftCertificate> actual = repository.findAll(pageable, incorrectCriteria);
+
+        assertThat(actual).isEmpty();
     }
 
     @Test
@@ -72,7 +104,7 @@ class GiftCertificateRepositoryTest {
     @Test
     void checkUpdateShouldUpdateCertificate() {
         GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate()
-                .withName("new-name")
+                .withPrice(BigDecimal.valueOf(112.00))
                 .build();
 
         repository.update(CORRECT_ID, giftCertificate);
