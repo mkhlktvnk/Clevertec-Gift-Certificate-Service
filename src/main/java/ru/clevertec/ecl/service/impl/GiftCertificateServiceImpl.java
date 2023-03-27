@@ -2,7 +2,6 @@ package ru.clevertec.ecl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
@@ -23,18 +22,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final TagRepository tagRepository;
     private final GiftCertificateMessages giftCertificateMessages;
 
-    @Override
-    public List<GiftCertificate> findAllByPageable(Pageable pageable) {
-        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllByPageable(pageable);
-        addTagsToGiftCertificates(giftCertificates);
-        return giftCertificates;
-    }
 
     @Override
-    public List<GiftCertificate> findAllBySortAndCriteria(Sort sort, GiftCertificateCriteria criteria) {
-        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllBySortAndCriteria(sort, criteria);
-        addTagsToGiftCertificates(giftCertificates);
-        return giftCertificates;
+    public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
+        List<GiftCertificate> certificates = giftCertificateRepository.findAll(pageable, criteria);
+        addTagsToGiftCertificates(certificates);
+        return certificates;
     }
 
     @Override
