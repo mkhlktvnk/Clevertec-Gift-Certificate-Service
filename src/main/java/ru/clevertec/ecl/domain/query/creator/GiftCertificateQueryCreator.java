@@ -60,6 +60,19 @@ public class GiftCertificateQueryCreator {
         return query.toString();
     }
 
+    public String createSortedAndPaginatedQuery(Pageable pageable) {
+        StringBuilder query = new StringBuilder(GiftCertificateQueries.FIND_ALL);
+
+        pageable.getSort().stream().forEach(sortParam ->
+                addSortParam(query, GIFT_CERTIFICATES_TABLE, sortParam.getProperty(), sortParam.getDirection().name())
+        );
+
+        query.append(" LIMIT ").append(pageable.getPageSize())
+                .append(" OFFSET ").append(pageable.getOffset());
+
+        return query.toString();
+    }
+
     private void addSearchParamWithFullMatch(StringBuilder query, String table, String column, String value) {
         addWhereKeyword(query);
         addParamName(query, table, column);
