@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GiftCertificateService {
     List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria);
-    GiftCertificate getById(long id);
+    GiftCertificate findById(long id);
     GiftCertificate save(GiftCertificate giftCertificate);
     void updateById(long id, GiftCertificate giftCertificate);
     void deleteById(long id);

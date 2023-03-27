@@ -31,7 +31,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    public GiftCertificate getById(long id) {
+    public GiftCertificate findById(long id) {
         GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
         giftCertificate.setTags(tagRepository.findByGiftCertificateId(id));

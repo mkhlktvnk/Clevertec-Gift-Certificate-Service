@@ -4,9 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +39,7 @@ public class GiftCertificateController {
 
     @GetMapping("/certificates/{id}")
     public GiftCertificateModel findById(@PathVariable Long id) {
-        return mapper.mapToModel(giftCertificateService.getById(id));
+        return mapper.mapToModel(giftCertificateService.findById(id));
     }
 
     @PostMapping("/certificates")

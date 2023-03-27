@@ -67,7 +67,7 @@ class GiftCertificateServiceImplTest {
         doReturn(Optional.of(expected)).when(giftCertificateRepository).findById(ID);
         doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
-        GiftCertificate actual = giftCertificateService.getById(ID);
+        GiftCertificate actual = giftCertificateService.findById(ID);
 
         verify(giftCertificateRepository).findById(ID);
         verify(tagRepository, times(tags.size())).findByGiftCertificateId(ID);
@@ -78,7 +78,7 @@ class GiftCertificateServiceImplTest {
     void checkGetByIdShouldThrowResourceNotFoundException() {
         doReturn(Optional.empty()).when(giftCertificateRepository).findById(ID);
 
-        assertThatThrownBy(() -> giftCertificateService.getById(ID))
+        assertThatThrownBy(() -> giftCertificateService.findById(ID))
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
