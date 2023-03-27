@@ -53,8 +53,7 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     @Override
     public Optional<GiftCertificate> findById(Long id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(GiftCertificateQueries.FIND_BY_ID,
-                    new Object[]{id}, mapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(GiftCertificateQueries.FIND_BY_ID, mapper, id));
         } catch (DataAccessException e) {
             return Optional.empty();
         }
