@@ -27,9 +27,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GiftCertificateRepositoryTest {
     private GiftCertificateRepository repository;
+
     private EmbeddedDatabase dataSource;
+
     private final GiftCertificateMapper tagMapper = new GiftCertificateMapper();
+
     private final FieldExtractor<GiftCertificate> fieldExtractor = new GiftCertificateFieldExtractor();
+
     private final GiftCertificateQueryCreator queryCreator = new GiftCertificateQueryCreator(fieldExtractor);
 
     private static final Long CORRECT_ID = 1L;

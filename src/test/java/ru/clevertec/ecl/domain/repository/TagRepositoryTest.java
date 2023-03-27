@@ -23,7 +23,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class TagRepositoryTest {
     private TagRepository tagRepository;
+
     private EmbeddedDatabase dataSource;
+
     private final TagMapper tagMapper = new TagMapper();
 
     private static final Long CORRECT_ID = 1L;
