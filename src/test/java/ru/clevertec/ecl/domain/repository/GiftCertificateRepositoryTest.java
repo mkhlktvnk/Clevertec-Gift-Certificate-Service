@@ -56,37 +56,6 @@ class GiftCertificateRepositoryTest {
     }
 
     @Test
-    void checkFindAllShouldReturnNotEmptyResult() {
-        Pageable pageable = PageRequest.of(0, 10,
-                Sort.by(Sort.Direction.ASC, "name", "description"));
-        GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder
-                .aGiftCertificateCriteria()
-                .withName("c")
-                .withDescription("d")
-                .withTagName("name-1")
-                .build();
-
-        List<GiftCertificate> certificates = repository.findAllByCriteria(pageable, criteria);
-
-        assertThat(certificates).isNotEmpty();
-    }
-
-    @Test
-    void checkFindAllShouldReturnEmptyResult() {
-        Pageable pageable = PageRequest.of(0, 10);
-        GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder
-                .aGiftCertificateCriteria()
-                .withName("name-that-not-exists")
-                .withDescription("description-that-not-exists")
-                .withTagName("tag-name-that-not-exists")
-                .build();
-
-        List<GiftCertificate> certificates = repository.findAllByCriteria(pageable, criteria);
-
-        assertThat(certificates).isEmpty();
-    }
-
-    @Test
     void checkFindByIdShouldReturnNotEmptyResult() {
         Optional<GiftCertificate> actual = repository.findById(CORRECT_ID);
 

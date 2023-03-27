@@ -3,12 +3,12 @@ package ru.clevertec.ecl.domain.repository.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.query.GiftCertificateQueries;
@@ -36,8 +36,8 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
 
     @Override
-    public List<GiftCertificate> findAllByCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
-        return jdbcTemplate.query(queryCreator.createSearchQuery(pageable, criteria), mapper);
+    public List<GiftCertificate> findAllBySortAndCriteria(Sort sort, GiftCertificateCriteria criteria) {
+        return jdbcTemplate.query(queryCreator.createSearchQuery(sort, criteria), mapper);
     }
 
     @Override

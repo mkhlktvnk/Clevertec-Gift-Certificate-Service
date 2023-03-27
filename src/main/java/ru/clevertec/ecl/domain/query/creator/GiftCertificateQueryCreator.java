@@ -2,6 +2,7 @@ package ru.clevertec.ecl.domain.query.creator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ru.clevertec.ecl.domain.constant.column.GiftCertificateColumns;
 import ru.clevertec.ecl.domain.constant.column.TagColumns;
@@ -34,7 +35,7 @@ public class GiftCertificateQueryCreator {
         return "UPDATE " + GIFT_CERTIFICATES_TABLE + " SET " + joiner + " WHERE " + GiftCertificateColumns.ID + " = " + id;
     }
 
-    public String createSearchQuery(Pageable pageable, GiftCertificateCriteria criteria) {
+    public String createSearchQuery(Sort sort, GiftCertificateCriteria criteria) {
         StringBuilder query = new StringBuilder(GiftCertificateQueries.FIND_ALL);
 
         if (criteria.getTagName() != null) {
@@ -50,12 +51,7 @@ public class GiftCertificateQueryCreator {
                     GiftCertificateColumns.DESCRIPTION, criteria.getDescription());
         }
 
-        pageable.getSort().stream().forEach(sortParam ->
-                addSortParam(query, GIFT_CERTIFICATES_TABLE, sortParam.getProperty(), sortParam.getDirection().name())
-        );
-
-        query.append(" LIMIT ").append(pageable.getPageSize())
-                .append(" OFFSET ").append(pageable.getOffset());
+        addSortParams(query, GIFT_CERTIFICATES_TABLE, sort);
 
         return query.toString();
     }
@@ -63,14 +59,18 @@ public class GiftCertificateQueryCreator {
     public String createSortedAndPaginatedQuery(Pageable pageable) {
         StringBuilder query = new StringBuilder(GiftCertificateQueries.FIND_ALL);
 
-        pageable.getSort().stream().forEach(sortParam ->
-                addSortParam(query, GIFT_CERTIFICATES_TABLE, sortParam.getProperty(), sortParam.getDirection().name())
-        );
+        addSortParams(query, GIFT_CERTIFICATES_TABLE, pageable.getSort());
 
         query.append(" LIMIT ").append(pageable.getPageSize())
                 .append(" OFFSET ").append(pageable.getOffset());
 
         return query.toString();
+    }
+
+    private void addSortParams(StringBuilder query, String table, Sort sort) {
+        sort.stream().forEach(sortParam ->
+                addSortParam(query, table, sortParam.getProperty(), sortParam.getDirection().name())
+        );
     }
 
     private void addSearchParamWithFullMatch(StringBuilder query, String table, String column, String value) {

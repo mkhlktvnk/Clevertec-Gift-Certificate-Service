@@ -2,6 +2,7 @@ package ru.clevertec.ecl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
@@ -23,11 +24,16 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateMessages giftCertificateMessages;
 
     @Override
-    public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
-        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllByCriteria(pageable, criteria);
-        giftCertificates.forEach(giftCertificate ->
-            giftCertificate.setTags(tagRepository.findByGiftCertificateId(giftCertificate.getId()))
-        );
+    public List<GiftCertificate> findAllByPageable(Pageable pageable) {
+        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllByPageable(pageable);
+        addTagsToGiftCertificates(giftCertificates);
+        return giftCertificates;
+    }
+
+    @Override
+    public List<GiftCertificate> findAllBySortAndCriteria(Sort sort, GiftCertificateCriteria criteria) {
+        List<GiftCertificate> giftCertificates = giftCertificateRepository.findAllBySortAndCriteria(sort, criteria);
+        addTagsToGiftCertificates(giftCertificates);
         return giftCertificates;
     }
 
@@ -73,5 +79,11 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
         giftCertificateRepository.delete(id);
+    }
+
+    private void addTagsToGiftCertificates(List<GiftCertificate> giftCertificates) {
+        giftCertificates.forEach(giftCertificate ->
+                giftCertificate.setTags(tagRepository.findByGiftCertificateId(giftCertificate.getId()))
+        );
     }
 }
