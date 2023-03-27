@@ -60,7 +60,7 @@ class TagRepositoryTest {
     }
 
     @Test
-    void checkExistsByIdShouldReturnTrueWhenResultGreaterThanZero() {
+    void checkExistsByIdShouldReturnTrueWhenResultGreaterThanZeroAndCallJdbcTemplate() {
         doReturn(1).when(jdbcTemplate)
                 .queryForObject(TagQueries.SELECT_COUNT_BY_ID, Integer.class, ID);
 
@@ -71,7 +71,7 @@ class TagRepositoryTest {
     }
 
     @Test
-    void checkExistsByIdShouldReturnFalseWhenResultIsZeroOrLess() {
+    void checkExistsByIdShouldReturnFalseWhenResultIsZeroOrLessAndCallJdbcTemplate() {
         doReturn(0).when(jdbcTemplate)
                 .queryForObject(TagQueries.SELECT_COUNT_BY_ID, Integer.class, ID);
 
@@ -82,7 +82,7 @@ class TagRepositoryTest {
     }
 
     @Test
-    void checkUpdateShouldCallRepository() {
+    void checkUpdateShouldCallJdbcTemplate() {
         Tag tag = TagTestDataBuilder.aTag().build();
 
         tagRepository.update(ID, tag);
@@ -91,7 +91,7 @@ class TagRepositoryTest {
     }
 
     @Test
-    void delete() {
+    void checkDeleteShouldCallJdbcTemplate() {
         tagRepository.delete(ID);
 
         verify(jdbcTemplate).update(TagQueries.DELETE_BY_ID, ID);
