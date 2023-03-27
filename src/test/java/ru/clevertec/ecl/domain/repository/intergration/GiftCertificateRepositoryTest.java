@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static builder.impl.GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class GiftCertificateRepositoryTest {
@@ -43,13 +42,13 @@ class GiftCertificateRepositoryTest {
 
     private static final Long INCORRECT_ID = 1000L;
 
-    private static final GiftCertificateCriteria correctCriteria = aGiftCertificateCriteria()
+    private static final GiftCertificateCriteria correctCriteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria()
             .withName("cert")
             .withDescription("desc")
             .withTagName("name-1")
             .build();
 
-    private static final GiftCertificateCriteria incorrectCriteria = aGiftCertificateCriteria()
+    private static final GiftCertificateCriteria incorrectCriteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria()
             .withName("incorrect-name")
             .withDescription("incorrect-description")
             .withTagName("incorrect-tag-name")

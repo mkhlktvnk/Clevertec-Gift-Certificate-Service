@@ -9,6 +9,7 @@ import ru.clevertec.ecl.domain.entity.Tag;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
     private String description = "";
     private BigDecimal price = BigDecimal.ZERO;
     private Integer duration = 0;
-    private LocalDateTime createDate = LocalDateTime.now();
-    private LocalDateTime lastUpdateDate = LocalDateTime.now();
+    private Instant createDate = Instant.now();
+    private Instant lastUpdateDate = Instant.now();
     private List<Tag> tags = new ArrayList<>();
 
     @Override

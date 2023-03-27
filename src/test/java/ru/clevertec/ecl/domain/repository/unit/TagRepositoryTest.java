@@ -41,7 +41,7 @@ class TagRepositoryTest {
         doReturn(expected).when(jdbcTemplate)
                 .query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper, page, size);
 
-        List<Tag> actual = tagRepository.findAll(0, 1);
+        List<Tag> actual = tagRepository.findAll(1, 0);
 
         verify(jdbcTemplate).query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper, page, size);
         assertThat(actual).isEqualTo(expected);
