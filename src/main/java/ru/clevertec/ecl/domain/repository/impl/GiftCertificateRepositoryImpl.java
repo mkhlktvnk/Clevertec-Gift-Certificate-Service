@@ -36,6 +36,11 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
 
     @Override
+    public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
+        return jdbcTemplate.query(queryCreator.createSearchQuery(pageable, criteria), mapper);
+    }
+
+    @Override
     public List<GiftCertificate> findAllBySortAndCriteria(Sort sort, GiftCertificateCriteria criteria) {
         return jdbcTemplate.query(queryCreator.createSearchQuery(sort, criteria), mapper);
     }
