@@ -8,6 +8,7 @@ import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
+import ru.clevertec.ecl.service.GiftCertificateMessages;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
@@ -19,6 +20,7 @@ import java.util.List;
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateRepository giftCertificateRepository;
     private final TagRepository tagRepository;
+    private final GiftCertificateMessages giftCertificateMessages;
 
     @Override
     public List<GiftCertificate> getGiftCertificates(Pageable pageable, GiftCertificateCriteria criteria) {
@@ -32,7 +34,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificate getById(long id) {
         GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Gift certificate not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
         giftCertificate.setTags(tagRepository.findByGiftCertificateId(id));
         return giftCertificate;
     }
@@ -55,7 +57,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public void updateById(long id, GiftCertificate giftCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Gift certificate not found!");
+            throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
         if (giftCertificate.getTags() != null) {
             giftCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
@@ -66,7 +68,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public void deleteById(long id) {
         if (!giftCertificateRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Gift certificate not found!");
+            throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
         giftCertificateRepository.delete(id);
     }
