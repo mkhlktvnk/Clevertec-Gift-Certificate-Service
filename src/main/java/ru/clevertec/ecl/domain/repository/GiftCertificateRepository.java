@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface GiftCertificateRepository {
     List<GiftCertificate> findAllByCriteria(Pageable pageable, GiftCertificateCriteria criteria);
+    List<GiftCertificate> findAllByPageable(Pageable pageable);
     Optional<GiftCertificate> findById(Long id);
     GiftCertificate insert(GiftCertificate giftCertificate);
     void update(Long id, GiftCertificate giftCertificate);
