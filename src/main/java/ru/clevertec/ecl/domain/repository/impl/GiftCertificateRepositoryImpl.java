@@ -53,8 +53,8 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     @Override
     @Transactional
     public GiftCertificate insert(GiftCertificate giftCertificate) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
         try {
+            KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbcTemplate.update(con -> {
                 PreparedStatement ps = con.prepareStatement(GiftCertificateQueries.INSERT,
                         Statement.RETURN_GENERATED_KEYS);
@@ -64,10 +64,10 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
                 ps.setInt(4, giftCertificate.getDuration());
                 return ps;
             }, keyHolder);
+            return mapInsertResult(keyHolder.getKeys());
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return mapInsertResult(keyHolder.getKeys());
     }
 
     @Override
@@ -92,15 +92,13 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
 
     @Override
     public boolean existsById(Long id) {
-        boolean isExists;
         try {
             Integer result = jdbcTemplate.queryForObject(GiftCertificateQueries.SELECT_COUNT_BY_ID,
                     Integer.class, id);
-            isExists = result > 0;
+            return result > 0;
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
-        return isExists;
     }
 
     private GiftCertificate mapInsertResult(Map<String, Object> map) {
