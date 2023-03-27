@@ -3,3 +3,4 @@ datasource:
   url: jdbc:h2:mem:ecl
   username: username
   password: password
+  connections: 10
