@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.mapper.TagMapper;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
