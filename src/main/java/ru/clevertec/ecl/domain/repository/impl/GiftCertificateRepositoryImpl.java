@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -105,14 +104,17 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     }
 
     private GiftCertificate mapInsertResult(Map<String, Object> map) {
+        Timestamp createDate = (Timestamp) map.get(GiftCertificateColumns.CREATE_DATE);
+        Timestamp lastUpdateDate = (Timestamp) map.get(GiftCertificateColumns.LAST_UPDATE_DATE);
+
         return GiftCertificate.builder()
                 .id((Long) map.get(GiftCertificateColumns.ID))
                 .name((String) map.get(GiftCertificateColumns.NAME))
                 .description((String) map.get(GiftCertificateColumns.DESCRIPTION))
                 .price((BigDecimal) map.get(GiftCertificateColumns.PRICE))
                 .duration((Integer) map.get(GiftCertificateColumns.DURATION))
-                .createDate((LocalDateTime) map.get(GiftCertificateColumns.CREATE_DATE))
-                .lastUpdateDate((LocalDateTime) map.get(GiftCertificateColumns.LAST_UPDATE_DATE))
+                .createDate(createDate.toLocalDateTime())
+                .lastUpdateDate(lastUpdateDate.toLocalDateTime())
                 .build();
     }
 }
