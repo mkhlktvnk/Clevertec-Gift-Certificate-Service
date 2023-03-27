@@ -34,8 +34,8 @@ class TagRepositoryTest {
     void setUp() {
         dataSource = new EmbeddedDatabaseBuilder()
                 .setType(EmbeddedDatabaseType.H2)
-                .addScript("classpath:sql/migration/test/schema.sql")
-                .addScript("classpath:sql/migration/test/data.sql")
+                .addScript("classpath:sql/scripts/test/schema.sql")
+                .addScript("classpath:sql/scripts/test/data.sql")
                 .build();
         tagRepository = new TagRepositoryImpl(new JdbcTemplate(dataSource), tagMapper);
     }
