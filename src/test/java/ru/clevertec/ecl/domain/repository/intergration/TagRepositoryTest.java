@@ -12,26 +12,20 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.mapper.TagMapper;
 import ru.clevertec.ecl.domain.repository.TagRepository;
-import ru.clevertec.ecl.domain.repository.exception.DomainException;
 import ru.clevertec.ecl.domain.repository.impl.TagRepositoryImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 class TagRepositoryTest {
-    private TagRepository tagRepository;
-
-    private EmbeddedDatabase dataSource;
-
-    private final TagMapper tagMapper = new TagMapper();
-
     private static final Long CORRECT_ID = 1L;
-
     private static final Long INCORRECT_ID = 1000L;
+    private final TagMapper tagMapper = new TagMapper();
+    private TagRepository tagRepository;
+    private EmbeddedDatabase dataSource;
 
     @BeforeEach
     void setUp() {

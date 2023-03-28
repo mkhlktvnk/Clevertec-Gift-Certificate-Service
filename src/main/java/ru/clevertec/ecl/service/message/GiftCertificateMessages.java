@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Getter
 @Component
-@PropertySource("classpath:messsage/message.properties")
+@PropertySource("classpath:message/message.properties")
 public class GiftCertificateMessages {
     @Value("${gift-certificate.not-found}")
     private String notFound;

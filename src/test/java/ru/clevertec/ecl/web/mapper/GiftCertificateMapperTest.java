@@ -18,20 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 class GiftCertificateMapperTest {
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
 
-    @ParameterizedTest
-    @MethodSource("provideGiftCertificates")
-    void mapToModel(GiftCertificate giftCertificate) {
-        GiftCertificateModel mappedModel = mapper.mapToModel(giftCertificate);
-        assertAll(
-                () -> assertThat(mappedModel.getId()).isEqualTo(giftCertificate.getId()),
-                () -> assertThat(mappedModel.getName()).isEqualTo(giftCertificate.getName()),
-                () -> assertThat(mappedModel.getDescription()).isEqualTo(giftCertificate.getDescription()),
-                () -> assertThat(mappedModel.getPrice()).isEqualTo(giftCertificate.getPrice()),
-                () -> assertThat(mappedModel.getDuration()).isEqualTo(giftCertificate.getDuration()),
-                () -> assertThat(mappedModel.getTagModels().size()).isEqualTo(giftCertificate.getTags().size())
-        );
-    }
-
     private static Stream<GiftCertificate> provideGiftCertificates() {
         return Stream.of(
                 GiftCertificateTestDataBuilder.aGiftCertificate().withId(1L).withName("name-1")
@@ -59,6 +45,20 @@ class GiftCertificateMapperTest {
                         .withPrice(BigDecimal.valueOf(100.5))
                         .withDuration(10)
                         .build()
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideGiftCertificates")
+    void mapToModel(GiftCertificate giftCertificate) {
+        GiftCertificateModel mappedModel = mapper.mapToModel(giftCertificate);
+        assertAll(
+                () -> assertThat(mappedModel.getId()).isEqualTo(giftCertificate.getId()),
+                () -> assertThat(mappedModel.getName()).isEqualTo(giftCertificate.getName()),
+                () -> assertThat(mappedModel.getDescription()).isEqualTo(giftCertificate.getDescription()),
+                () -> assertThat(mappedModel.getPrice()).isEqualTo(giftCertificate.getPrice()),
+                () -> assertThat(mappedModel.getDuration()).isEqualTo(giftCertificate.getDuration()),
+                () -> assertThat(mappedModel.getTagModels().size()).isEqualTo(giftCertificate.getTags().size())
         );
     }
 }

@@ -19,24 +19,21 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 
 
 @ExtendWith(MockitoExtension.class)
 class TagServiceImplTest {
+    private static final Long ID = 1L;
     @Mock
     private TagRepository tagRepository;
-
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
-
     @Mock
     private TagMessages tagMessages;
-
     @InjectMocks
     private TagServiceImpl tagService;
-
-    private static final Long ID = 1L;
 
     @Test
     void checkGetTagsShouldCallRepositoryAndReturnExpectedResult() {

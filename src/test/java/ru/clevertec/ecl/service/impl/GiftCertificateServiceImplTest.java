@@ -24,23 +24,23 @@ import java.util.Optional;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GiftCertificateServiceImplTest {
+    private static final Long ID = 1L;
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
-
     @Mock
     private TagRepository tagRepository;
-
     @Mock
     private GiftCertificateMessages tagMessages;
-
     @InjectMocks
     private GiftCertificateServiceImpl giftCertificateService;
-
-    private static final Long ID = 1L;
 
     @Test
     void checkGetByPageableAndCriteriaShouldReturnExpectedResultAndCallRepository() {

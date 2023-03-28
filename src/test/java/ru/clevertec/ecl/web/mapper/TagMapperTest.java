@@ -15,6 +15,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class TagMapperTest {
     private final TagMapper mapper = Mappers.getMapper(TagMapper.class);
 
+    private static Stream<Tag> provideTags() {
+        return Stream.of(
+                TagTestDataBuilder.aTag().withId(1L).withName("name-1").build(),
+                TagTestDataBuilder.aTag().withId(2L).withName("name-2").build(),
+                TagTestDataBuilder.aTag().withId(3L).withName("name-3").build(),
+                TagTestDataBuilder.aTag().withId(4L).withName("name-4").build(),
+                TagTestDataBuilder.aTag().withId(5L).withName("name-5").build()
+        );
+    }
+
     @ParameterizedTest
     @MethodSource("provideTags")
     void mapToModel(Tag tag) {
@@ -23,16 +33,6 @@ class TagMapperTest {
         assertAll(
                 () -> assertThat(mappedModel.getId()).isEqualTo(tag.getId()),
                 () -> assertThat(mappedModel.getName()).isEqualTo(tag.getName())
-        );
-    }
-
-    private static Stream<Tag> provideTags() {
-        return Stream.of(
-                TagTestDataBuilder.aTag().withId(1L).withName("name-1").build(),
-                TagTestDataBuilder.aTag().withId(2L).withName("name-2").build(),
-                TagTestDataBuilder.aTag().withId(3L).withName("name-3").build(),
-                TagTestDataBuilder.aTag().withId(4L).withName("name-4").build(),
-                TagTestDataBuilder.aTag().withId(5L).withName("name-5").build()
         );
     }
 }

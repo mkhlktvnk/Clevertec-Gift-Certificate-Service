@@ -27,19 +27,15 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class GiftCertificateRepositoryTest {
 
+    private static final Long ID = 1L;
     @Mock
     private JdbcTemplate jdbcTemplate;
-
     @Mock
     private GiftCertificateMapper mapper;
-
     @Mock
     private GiftCertificateQueryCreator creator;
-
     @InjectMocks
     private GiftCertificateRepositoryImpl giftCertificateRepository;
-
-    private static final Long ID = 1L;
 
     @Test
     void checkFindAllShouldReturnActualResultAndCallJdbcTemplate() {
