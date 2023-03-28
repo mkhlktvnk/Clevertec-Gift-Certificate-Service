@@ -5,19 +5,21 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class DataSourceConfig {
-    @Value("classpath:datasource:url")
+    @Value("${datasource.url}")
     private String datasourceUrl;
 
-    @Value("classpath:datasource.username")
+    @Value("${datasource.username}")
     private String datasourceUsername;
 
-    @Value("classpath:datasource.password")
+    @Value("${datasource.password}")
     private String datasourcePassword;
 
     @Value("${datasource.driver}")
