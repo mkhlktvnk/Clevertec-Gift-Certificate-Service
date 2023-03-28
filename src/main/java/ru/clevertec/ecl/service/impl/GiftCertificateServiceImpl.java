@@ -22,7 +22,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final TagRepository tagRepository;
     private final GiftCertificateMessages giftCertificateMessages;
 
-
     @Override
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
         List<GiftCertificate> certificates = giftCertificateRepository.findAll(pageable, criteria);
@@ -55,14 +54,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     @Transactional
-    public void updateById(long id, GiftCertificate giftCertificate) {
+    public void updateById(long id, GiftCertificate updateCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
-        if (giftCertificate.getTags() != null) {
-            giftCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
+        if (updateCertificate.getTags() != null) {
+            updateCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
         }
-        giftCertificateRepository.update(id, giftCertificate);
+        giftCertificateRepository.update(id, updateCertificate);
     }
 
     @Override

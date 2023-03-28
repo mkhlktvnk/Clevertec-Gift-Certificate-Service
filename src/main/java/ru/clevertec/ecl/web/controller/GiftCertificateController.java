@@ -39,18 +39,21 @@ public class GiftCertificateController {
 
     @GetMapping("/certificates/{id}")
     public GiftCertificateModel findById(@PathVariable Long id) {
-        return mapper.mapToModel(giftCertificateService.findById(id));
+        GiftCertificate giftCertificate = giftCertificateService.findById(id);
+        return mapper.mapToModel(giftCertificate);
     }
 
     @PostMapping("/certificates")
     public GiftCertificateModel save(@Valid @RequestBody GiftCertificateModel giftCertificateModel) {
-        return mapper.mapToModel(giftCertificateService.save(mapper.mapToEntity(giftCertificateModel)));
+        GiftCertificate giftCertificate = mapper.mapToEntity(giftCertificateModel);
+        return mapper.mapToModel(giftCertificateService.save(giftCertificate));
     }
 
     @PutMapping("/certificates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel giftCertificateModel) {
-        giftCertificateService.updateById(id, mapper.mapToEntity(giftCertificateModel));
+    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel updateCertificateModel) {
+        GiftCertificate updateCertificate = mapper.mapToEntity(updateCertificateModel);
+        giftCertificateService.updateById(id, updateCertificate);
     }
 
     @DeleteMapping("/certificates/{id}")

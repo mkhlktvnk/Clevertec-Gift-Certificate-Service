@@ -29,9 +29,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class GiftCertificateRepositoryImpl implements GiftCertificateRepository {
     private final JdbcTemplate jdbcTemplate;
-
     private final RowMapper<GiftCertificate> mapper;
-
     private final GiftCertificateQueryCreator queryCreator;
 
 
@@ -79,10 +77,10 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     }
 
     @Override
-    public void update(Long id, GiftCertificate giftCertificate) {
+    public void update(Long id, GiftCertificate updateCertificate) {
         try {
-            giftCertificate.setId(id);
-            String query = queryCreator.createUpdateQuery(giftCertificate);
+            updateCertificate.setId(id);
+            String query = queryCreator.createUpdateQuery(updateCertificate);
             jdbcTemplate.update(query);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);

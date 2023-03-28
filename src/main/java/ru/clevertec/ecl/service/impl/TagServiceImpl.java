@@ -47,11 +47,11 @@ public class TagServiceImpl implements TagService {
 
     @Override
     @Transactional
-    public void updateById(long id, Tag tag) {
+    public void updateById(long id, Tag updateTag) {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
-        tagRepository.update(id, tag);
+        tagRepository.update(id, updateTag);
     }
 
     @Override

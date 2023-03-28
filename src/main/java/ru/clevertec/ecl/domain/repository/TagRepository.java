@@ -12,7 +12,7 @@ public interface TagRepository {
     Optional<Tag> findById(long id);
     Tag insert(Tag tag);
     Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag);
-    void update(Long id, Tag tag);
+    void update(Long id, Tag updateTag);
     void delete(Long id);
     boolean existsById(Long id);
 }

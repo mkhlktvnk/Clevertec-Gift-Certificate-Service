@@ -14,7 +14,7 @@ public interface GiftCertificateRepository {
     List<GiftCertificate> findAllByPageable(Pageable pageable);
     Optional<GiftCertificate> findById(Long id);
     GiftCertificate insert(GiftCertificate giftCertificate);
-    void update(Long id, GiftCertificate giftCertificate);
+    void update(Long id, GiftCertificate updateCertificate);
     void delete(Long id);
     boolean existsById(Long id);
 }

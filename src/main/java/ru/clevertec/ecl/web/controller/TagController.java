@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.web.mapper.TagMapper;
 import ru.clevertec.ecl.web.model.TagModel;
@@ -22,23 +23,27 @@ public class TagController {
 
     @GetMapping("/tags")
     public List<TagModel> findAllByPageable(@PageableDefault Pageable pageable) {
-        return mapper.mapToModel(tagService.findAllByPageable(pageable));
+        List<Tag> tags = tagService.findAllByPageable(pageable);
+        return mapper.mapToModel(tags);
     }
 
     @GetMapping("/tags/{id}")
     public TagModel findById(@PathVariable Long id) {
-        return mapper.mapToModel(tagService.findById(id));
+        Tag tag = tagService.findById(id);
+        return mapper.mapToModel(tag);
     }
 
     @PostMapping("/tags")
     public TagModel save(@Valid @RequestBody TagModel tagModel) {
-        return mapper.mapToModel(tagService.insert(mapper.mapToEntity(tagModel)));
+        Tag tag = mapper.mapToEntity(tagModel);
+        return mapper.mapToModel(tag);
     }
 
     @PutMapping("/tags/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateById(@PathVariable Long id, @Valid @RequestBody TagModel tagModel) {
-        tagService.updateById(id, mapper.mapToEntity(tagModel));
+    public void updateById(@PathVariable Long id, @Valid @RequestBody TagModel updateTagModel) {
+        Tag updateTag = mapper.mapToEntity(updateTagModel);
+        tagService.updateById(id, updateTag);
     }
 
     @DeleteMapping("/tags/{id}")
