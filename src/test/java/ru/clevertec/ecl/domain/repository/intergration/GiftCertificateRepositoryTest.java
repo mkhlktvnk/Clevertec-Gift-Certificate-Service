@@ -42,6 +42,7 @@ class GiftCertificateRepositoryTest {
             .withDescription("incorrect-description")
             .withTagName("incorrect-tag-name")
             .build();
+
     private final GiftCertificateMapper tagMapper = new GiftCertificateMapper();
 
     private final FieldExtractor<GiftCertificate> fieldExtractor = new GiftCertificateFieldExtractor();
