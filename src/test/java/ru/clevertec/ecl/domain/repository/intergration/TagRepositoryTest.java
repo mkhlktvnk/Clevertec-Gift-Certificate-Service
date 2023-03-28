@@ -91,13 +91,14 @@ class TagRepositoryTest {
     }
 
     @Test
-    void checkInsertShouldThrowDomainException() {
+    void checkInsertShouldReturnActualResult() {
         Tag tag = TagTestDataBuilder.aTag()
-                .withName(null)
+                .withName("new-tag")
                 .build();
 
-        assertThatThrownBy(() -> tagRepository.insert(tag))
-                .isInstanceOf(DomainException.class);
+        Tag actual = tagRepository.insert(tag);
+
+        assertThat(actual.getName()).isEqualTo(tag.getName());
     }
 
     @Test

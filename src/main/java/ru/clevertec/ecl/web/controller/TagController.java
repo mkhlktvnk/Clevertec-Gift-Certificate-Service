@@ -36,7 +36,7 @@ public class TagController {
     @PostMapping("/tags")
     public TagModel save(@Valid @RequestBody TagModel tagModel) {
         Tag tag = mapper.mapToEntity(tagModel);
-        return mapper.mapToModel(tag);
+        return mapper.mapToModel(tagService.insert(tag));
     }
 
     @PutMapping("/tags/{id}")

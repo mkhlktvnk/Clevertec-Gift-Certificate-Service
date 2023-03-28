@@ -39,16 +39,6 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     }
 
     @Override
-    public List<GiftCertificate> findAllBySortAndCriteria(Sort sort, GiftCertificateCriteria criteria) {
-        return jdbcTemplate.query(queryCreator.createSearchQuery(sort, criteria), mapper);
-    }
-
-    @Override
-    public List<GiftCertificate> findAllByPageable(Pageable pageable) {
-        return jdbcTemplate.query(queryCreator.createSortedAndPaginatedQuery(pageable), mapper);
-    }
-
-    @Override
     public Optional<GiftCertificate> findById(Long id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(GiftCertificateQueries.FIND_BY_ID, mapper, id));

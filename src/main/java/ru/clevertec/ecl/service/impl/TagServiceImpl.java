@@ -32,6 +32,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public Tag insert(Tag tag) {
         return tagRepository.insert(tag);
     }
