@@ -33,12 +33,16 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class GiftCertificateServiceImplTest {
     private static final Long ID = 1L;
+
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
+
     @Mock
     private TagRepository tagRepository;
+
     @Mock
     private GiftCertificateMessages tagMessages;
+
     @InjectMocks
     private GiftCertificateServiceImpl giftCertificateService;
 
@@ -106,7 +110,7 @@ class GiftCertificateServiceImplTest {
         GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate()
                 .withTags(singletonList(tag))
                 .build();
-        int expectedTagRepositoryCalls = giftCertificate.getTags().size();
+        Integer expectedTagRepositoryCalls = giftCertificate.getTags().size();
         doReturn(true).when(giftCertificateRepository).existsById(ID);
 
         giftCertificateService.updateById(ID, giftCertificate);

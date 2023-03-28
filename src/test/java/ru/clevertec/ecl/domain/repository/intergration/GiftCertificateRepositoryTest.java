@@ -28,21 +28,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class GiftCertificateRepositoryTest {
     private static final Long CORRECT_ID = 1L;
+
     private static final Long INCORRECT_ID = 1000L;
+
     private static final GiftCertificateCriteria correctCriteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria()
             .withName("cert")
             .withDescription("desc")
             .withTagName("name-1")
             .build();
+
     private static final GiftCertificateCriteria incorrectCriteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria()
             .withName("incorrect-name")
             .withDescription("incorrect-description")
             .withTagName("incorrect-tag-name")
             .build();
     private final GiftCertificateMapper tagMapper = new GiftCertificateMapper();
+
     private final FieldExtractor<GiftCertificate> fieldExtractor = new GiftCertificateFieldExtractor();
+
     private final GiftCertificateQueryCreator queryCreator = new GiftCertificateQueryCreator(fieldExtractor);
+
     private GiftCertificateRepository repository;
+
     private EmbeddedDatabase dataSource;
 
     @BeforeEach

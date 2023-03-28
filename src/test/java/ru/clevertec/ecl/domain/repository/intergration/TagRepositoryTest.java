@@ -22,9 +22,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class TagRepositoryTest {
     private static final Long CORRECT_ID = 1L;
+
     private static final Long INCORRECT_ID = 1000L;
+
     private final TagMapper tagMapper = new TagMapper();
+
     private TagRepository tagRepository;
+
     private EmbeddedDatabase dataSource;
 
     @BeforeEach

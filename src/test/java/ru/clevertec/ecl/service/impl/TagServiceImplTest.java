@@ -26,12 +26,16 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class TagServiceImplTest {
     private static final Long ID = 1L;
+
     @Mock
     private TagRepository tagRepository;
+
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
+
     @Mock
     private TagMessages tagMessages;
+
     @InjectMocks
     private TagServiceImpl tagService;
 

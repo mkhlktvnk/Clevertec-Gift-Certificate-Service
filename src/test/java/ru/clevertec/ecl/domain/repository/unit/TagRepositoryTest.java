@@ -23,12 +23,14 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class TagRepositoryTest {
-
     private static final Long ID = 1L;
+
     @Mock
     private JdbcTemplate jdbcTemplate;
+
     @Mock
     private TagMapper tagMapper;
+
     @InjectMocks
     private TagRepositoryImpl tagRepository;
 
