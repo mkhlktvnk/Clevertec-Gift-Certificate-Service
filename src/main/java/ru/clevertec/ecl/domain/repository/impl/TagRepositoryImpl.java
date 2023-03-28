@@ -2,6 +2,7 @@ package ru.clevertec.ecl.domain.repository.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -12,6 +13,7 @@ import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.query.TagQueries;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
+
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -26,9 +28,10 @@ public class TagRepositoryImpl implements TagRepository {
     private final RowMapper<Tag> mapper;
 
     @Override
-    public List<Tag> findAll(int page, int size) {
+    public List<Tag> findAll(Pageable pageable) {
         try {
-            return jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, mapper, size, page);
+            return jdbcTemplate.query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, mapper,
+                    pageable.getPageSize(), pageable.getOffset());
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }

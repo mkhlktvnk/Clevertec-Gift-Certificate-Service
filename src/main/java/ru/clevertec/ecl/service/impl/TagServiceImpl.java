@@ -22,7 +22,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<Tag> findAllByPageable(Pageable pageable) {
-        return tagRepository.findAll(pageable.getPageNumber(), pageable.getPageSize());
+        return tagRepository.findAll(pageable);
     }
 
     @Override

@@ -4,6 +4,7 @@ import builder.impl.TagTestDataBuilder;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
@@ -49,14 +50,14 @@ class TagRepositoryTest {
 
     @Test
     void checkFindAllShouldReturnCorrectNumberOfTags() {
-        List<Tag> tags = tagRepository.findAll(0, 10);
+        List<Tag> tags = tagRepository.findAll(PageRequest.of(0, 10));
 
         assertThat(tags).isNotEmpty();
     }
 
     @Test
     void findAllShouldReturnEmptyTagsList() {
-        List<Tag> tags = tagRepository.findAll(1000, 10);
+        List<Tag> tags = tagRepository.findAll(PageRequest.of(100, 10));
 
         assertThat(tags).isEmpty();
     }

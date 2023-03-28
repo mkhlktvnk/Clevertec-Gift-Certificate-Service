@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.mapper.TagMapper;
@@ -35,15 +37,15 @@ class TagRepositoryTest {
 
     @Test
     void checkFindAllShouldReturnExpectedResultAndCallJdbcTemplate() {
-        Integer page = 0;
-        Integer size = 1;
+        Pageable pageable = PageRequest.of(0, 1);
         List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
-        doReturn(expected).when(jdbcTemplate)
-                .query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper, page, size);
+        doReturn(expected).when(jdbcTemplate).query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper,
+                pageable.getPageSize(), pageable.getOffset());
 
-        List<Tag> actual = tagRepository.findAll(1, 0);
+        List<Tag> actual = tagRepository.findAll(pageable);
 
-        verify(jdbcTemplate).query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper, page, size);
+        verify(jdbcTemplate).query(TagQueries.FIND_WITH_LIMIT_AND_OFFSET, tagMapper,
+                pageable.getPageSize(), pageable.getOffset());
         assertThat(actual).isEqualTo(expected);
     }
 

@@ -42,11 +42,11 @@ class TagServiceImplTest {
     void checkGetTagsShouldCallRepositoryAndReturnExpectedResult() {
         Pageable pageable = PageRequest.of(0, 1);
         List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
-        doReturn(expected).when(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
+        doReturn(expected).when(tagRepository).findAll(pageable);
 
         List<Tag> actual = tagService.findAllByPageable(pageable);
 
-        verify(tagRepository).findAll(pageable.getPageNumber(), pageable.getPageSize());
+        verify(tagRepository).findAll(pageable);
         assertThat(actual).isEqualTo(expected);
     }
 
