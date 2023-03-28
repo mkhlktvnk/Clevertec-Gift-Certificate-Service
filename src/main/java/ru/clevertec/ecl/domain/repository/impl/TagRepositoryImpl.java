@@ -5,10 +5,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.constant.column.TagColumns;
+import ru.clevertec.ecl.domain.constant.table.Tables;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.query.TagQueries;
 import ru.clevertec.ecl.domain.repository.TagRepository;
@@ -58,14 +60,13 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public Tag insert(Tag tag) {
         try {
-            KeyHolder keyHolder = new GeneratedKeyHolder();
-            jdbcTemplate.update(con -> {
-                PreparedStatement ps = con.prepareStatement(TagQueries.INSERT,
-                        Statement.RETURN_GENERATED_KEYS);
-                ps.setString(1, tag.getName());
-                return ps;
-            }, keyHolder);
-            return mapInsertResult(keyHolder.getKeys());
+            long id = new SimpleJdbcInsert(jdbcTemplate)
+                    .withTableName(Tables.TAGS_TABLE)
+                    .usingColumns(TagColumns.NAME)
+                    .usingGeneratedKeyColumns(TagColumns.ID)
+                    .executeAndReturnKey(Map.of(TagColumns.NAME, tag.getName()))
+                    .longValue();
+            return findById(id).orElseThrow(DomainException::new);
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);
         }
@@ -76,7 +77,7 @@ public class TagRepositoryImpl implements TagRepository {
         try {
              Tag inserted = insert(tag);
             jdbcTemplate.update(TagQueries.ADD_TAG_TO_GIFT_CERTIFICATE,
-                    tagCertificateId, tag.getId());
+                    tagCertificateId, inserted.getId());
             return inserted;
         } catch (DataAccessException e) {
             throw new DomainException(e.getMessage(), e);

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Mapper(uses = TagMapper.class)
 public interface GiftCertificateMapper {
+    @Mapping(source = "tagModels", target = "tags")
     GiftCertificate mapToEntity(GiftCertificateModel model);
 
     @Mapping(source = "tags", target = "tagModels")

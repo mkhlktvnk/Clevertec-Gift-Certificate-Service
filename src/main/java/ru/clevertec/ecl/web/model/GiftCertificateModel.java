@@ -16,7 +16,7 @@ import java.util.List;
 public class GiftCertificateModel {
     @NotNull
     @Min(0)
-    @JsonProperty("id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotBlank
