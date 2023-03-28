@@ -8,9 +8,9 @@ import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
-import ru.clevertec.ecl.service.message.GiftCertificateMessages;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.message.GiftCertificateMessages;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;

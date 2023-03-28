@@ -10,6 +10,8 @@ import java.util.List;
 @Mapper
 public interface TagMapper {
     Tag mapToEntity(TagModel model);
+
     TagModel mapToModel(Tag entity);
+
     List<TagModel> mapToModel(Collection<Tag> entities);
 }

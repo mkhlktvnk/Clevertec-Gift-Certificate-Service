@@ -8,8 +8,12 @@ import java.util.List;
 
 public interface GiftCertificateService {
     List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria);
+
     GiftCertificate findById(long id);
+
     GiftCertificate save(GiftCertificate giftCertificate);
+
     void updateById(long id, GiftCertificate updateCertificate);
+
     void deleteById(long id);
 }

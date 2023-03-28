@@ -6,8 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.constant.column.TagColumns;
 import ru.clevertec.ecl.domain.constant.table.Tables;
@@ -16,9 +14,6 @@ import ru.clevertec.ecl.domain.query.TagQueries;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.domain.repository.exception.DomainException;
 
-
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -75,7 +70,7 @@ public class TagRepositoryImpl implements TagRepository {
     @Override
     public Tag insertAndAddToGiftCertificate(long tagCertificateId, Tag tag) {
         try {
-             Tag inserted = insert(tag);
+            Tag inserted = insert(tag);
             jdbcTemplate.update(TagQueries.ADD_TAG_TO_GIFT_CERTIFICATE,
                     tagCertificateId, inserted.getId());
             return inserted;

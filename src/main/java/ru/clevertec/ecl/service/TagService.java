@@ -7,9 +7,14 @@ import java.util.List;
 
 public interface TagService {
     List<Tag> findAllByPageable(Pageable pageable);
+
     Tag findById(long id);
+
     Tag insert(Tag tag);
+
     Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag);
+
     void updateById(long id, Tag updateTag);
+
     void deleteById(long id);
 }
