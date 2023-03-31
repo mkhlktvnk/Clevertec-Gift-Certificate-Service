@@ -1,9 +1,13 @@
 package ru.clevertec.ecl.domain.repository.impl;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
@@ -18,7 +22,19 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> findAll(Pageable pageable) {
-        throw new UnsupportedOperationException();
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
+            Root<Tag> root = query.from(Tag.class);
+
+            query.select(root);
+            query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+
+            return session.createQuery(query)
+                    .setFirstResult(pageable.getPageNumber())
+                    .setMaxResults(pageable.getPageSize())
+                    .getResultList();
+        }
     }
 
     @Override
