@@ -5,9 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
-import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
-import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
@@ -19,37 +17,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateRepository giftCertificateRepository;
-    private final TagRepository tagRepository;
     private final GiftCertificateMessages giftCertificateMessages;
 
     @Override
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
-        List<GiftCertificate> certificates = giftCertificateRepository.findAll(pageable, criteria);
-        addTagsToGiftCertificates(certificates);
-        return certificates;
+        return giftCertificateRepository.findAll(pageable, criteria);
     }
 
     @Override
     public GiftCertificate findById(long id) {
-        GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
+        return giftCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
-        giftCertificate.setTags(tagRepository.findByGiftCertificateId(id));
-        return giftCertificate;
     }
 
     @Override
     @Transactional
     public GiftCertificate save(GiftCertificate giftCertificate) {
-        GiftCertificate insertedCertificate = giftCertificateRepository.insert(giftCertificate);
-        if (giftCertificate.getTags() != null) {
-            List<Tag> insertedTags = giftCertificate.getTags().stream()
-                    .map(tag -> tagRepository.insertAndAddToGiftCertificate(insertedCertificate.getId(), tag))
-                    .toList();
-            insertedCertificate.setTags(insertedTags);
-        }
-        List<Tag> tags = tagRepository.findByGiftCertificateId(insertedCertificate.getId());
-        insertedCertificate.setTags(tags);
-        return insertedCertificate;
+        return giftCertificateRepository.insert(giftCertificate);
     }
 
     @Override
@@ -57,9 +41,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     public void updateById(long id, GiftCertificate updateCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
-        }
-        if (updateCertificate.getTags() != null) {
-            updateCertificate.getTags().forEach(tag -> tagRepository.insertAndAddToGiftCertificate(id, tag));
         }
         giftCertificateRepository.update(id, updateCertificate);
     }
@@ -71,11 +52,5 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
         giftCertificateRepository.delete(id);
-    }
-
-    private void addTagsToGiftCertificates(List<GiftCertificate> giftCertificates) {
-        giftCertificates.forEach(giftCertificate ->
-                giftCertificate.setTags(tagRepository.findByGiftCertificateId(giftCertificate.getId()))
-        );
     }
 }
