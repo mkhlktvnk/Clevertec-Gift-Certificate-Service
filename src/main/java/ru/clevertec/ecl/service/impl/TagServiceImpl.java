@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.Tag;
-import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
@@ -17,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
-    private final GiftCertificateRepository giftCertificateRepository;
     private final TagMessages tagMessages;
 
     @Override
@@ -35,15 +33,6 @@ public class TagServiceImpl implements TagService {
     @Transactional
     public Tag insert(Tag tag) {
         return tagRepository.insert(tag);
-    }
-
-    @Override
-    @Transactional
-    public Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag) {
-        if (!giftCertificateRepository.existsById(giftCertificateId)) {
-            throw new ResourceNotFoundException(tagMessages.getNotFound());
-        }
-        return tagRepository.insertAndAddToGiftCertificate(giftCertificateId, tag);
     }
 
     @Override
