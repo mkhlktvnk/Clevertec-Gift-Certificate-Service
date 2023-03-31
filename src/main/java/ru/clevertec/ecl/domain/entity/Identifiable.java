@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.domain.repository.impl;
+package ru.clevertec.ecl.domain.entity;
 
 import java.io.Serializable;
 
