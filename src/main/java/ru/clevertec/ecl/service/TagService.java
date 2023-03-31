@@ -12,8 +12,6 @@ public interface TagService {
 
     Tag insert(Tag tag);
 
-    Tag insertAndAddToGiftCertificate(long giftCertificateId, Tag tag);
-
     void updateById(long id, Tag updateTag);
 
     void deleteById(long id);
