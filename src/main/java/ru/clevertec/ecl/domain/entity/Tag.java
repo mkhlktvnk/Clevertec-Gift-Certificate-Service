@@ -14,7 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import ru.clevertec.ecl.domain.repository.impl.Identifiable;
 
 import java.util.ArrayList;
 import java.util.List;
