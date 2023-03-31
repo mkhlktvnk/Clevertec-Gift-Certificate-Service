@@ -7,16 +7,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.JdbcTransactionManager;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
-public class DataSourceConfig {
+public class HibernateConfig {
 
     @Value("${datasource.url}")
     private String datasourceUrl;
@@ -31,6 +33,16 @@ public class DataSourceConfig {
     private String datasourceDriver;
 
     @Bean
+    public LocalSessionFactoryBean localSessionFactoryBean() {
+        LocalSessionFactoryBean localSessionFactoryBean
+                = new LocalSessionFactoryBean();
+        localSessionFactoryBean.setDataSource(dataSource());
+        localSessionFactoryBean.setPackagesToScan("ru.clevertec.ecl.domain.entity");
+        localSessionFactoryBean.setHibernateProperties(hibernateProperties());
+        return localSessionFactoryBean;
+    }
+
+    @Bean
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(datasourceUrl);
@@ -41,12 +53,24 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
-        return new JdbcTransactionManager(dataSource());
+    public PlatformTransactionManager hibernateTransactionManager() {
+        HibernateTransactionManager transactionManager
+                = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(localSessionFactoryBean().getObject());
+        return transactionManager;
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    private Properties hibernateProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.show_sql", "true");
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+
+        return hibernateProperties;
     }
 }
