@@ -27,8 +27,8 @@ public class TagRepositoryImpl implements TagRepository {
             CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
             Root<Tag> root = query.from(Tag.class);
 
-            query.select(root);
-            query.orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+            query.select(root)
+                    .orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
 
             return session.createQuery(query)
                     .setFirstResult(pageable.getPageNumber())
