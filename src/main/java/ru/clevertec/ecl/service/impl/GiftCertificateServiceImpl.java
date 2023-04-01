@@ -2,10 +2,12 @@ package ru.clevertec.ecl.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
+import ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
@@ -21,7 +23,12 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
-        return giftCertificateRepository.findAll(pageable, criteria);
+        Specification<GiftCertificate> specification = Specification.anyOf(
+                GiftCertificateSpecifications.hasNameLike(criteria.getName()),
+                GiftCertificateSpecifications.hasDescriptionLike(criteria.getDescription()),
+                GiftCertificateSpecifications.hasTagWithName(criteria.getTagName())
+        );
+        return giftCertificateRepository.findAll(pageable, specification);
     }
 
     @Override
