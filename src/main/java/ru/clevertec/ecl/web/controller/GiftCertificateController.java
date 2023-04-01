@@ -44,6 +44,7 @@ public class GiftCertificateController {
     }
 
     @PostMapping("/certificates")
+    @ResponseStatus(HttpStatus.CREATED)
     public GiftCertificateModel save(@Valid @RequestBody GiftCertificateModel giftCertificateModel) {
         GiftCertificate giftCertificate = mapper.mapToEntity(giftCertificateModel);
         return mapper.mapToModel(giftCertificateService.save(giftCertificate));

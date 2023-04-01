@@ -42,6 +42,7 @@ public class TagController {
     }
 
     @PostMapping("/tags")
+    @ResponseStatus(HttpStatus.CREATED)
     public TagModel save(@Valid @RequestBody TagModel tagModel) {
         Tag tag = mapper.mapToEntity(tagModel);
         return mapper.mapToModel(tagService.insert(tag));
