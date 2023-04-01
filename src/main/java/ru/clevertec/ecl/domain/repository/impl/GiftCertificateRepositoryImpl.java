@@ -12,8 +12,6 @@ import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
-import ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications;
-import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
 import java.util.Optional;
