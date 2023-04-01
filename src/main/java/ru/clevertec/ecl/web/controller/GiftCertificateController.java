@@ -31,7 +31,7 @@ public class GiftCertificateController {
     private final GiftCertificateMapper mapper = Mappers.getMapper(GiftCertificateMapper.class);
 
     @GetMapping("/certificates")
-    public List<GiftCertificateModel> findAllBySortAndCriteria(
+    public List<GiftCertificateModel> findAllByPageableAndCriteria(
             @PageableDefault Pageable pageable, @Valid GiftCertificateCriteria criteria) {
         List<GiftCertificate> certificates = giftCertificateService.findAllByPageableAndCriteria(pageable, criteria);
         return mapper.mapToModel(certificates);
