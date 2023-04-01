@@ -9,7 +9,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
-import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.TagMessages;
@@ -29,9 +28,6 @@ class TagServiceImplTest {
 
     @Mock
     private TagRepository tagRepository;
-
-    @Mock
-    private GiftCertificateRepository giftCertificateRepository;
 
     @Mock
     private TagMessages tagMessages;
@@ -79,28 +75,6 @@ class TagServiceImplTest {
 
         verify(tagRepository).insert(expected);
         assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void checkInsertAndAddToGiftCertificateShouldReturnExpectedResult() {
-        Tag expected = TagTestDataBuilder.aTag().build();
-        doReturn(true).when(giftCertificateRepository).existsById(ID);
-        doReturn(expected).when(tagRepository).insertAndAddToGiftCertificate(ID, expected);
-
-        Tag actual = tagService.insertAndAddToGiftCertificate(ID, expected);
-
-        verify(giftCertificateRepository).existsById(ID);
-        verify(tagRepository).insertAndAddToGiftCertificate(ID, expected);
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void checkInsertAndAddToGiftCertificateShouldThrowResourceNotFoundException() {
-        Tag tag = TagTestDataBuilder.aTag().build();
-        doReturn(false).when(giftCertificateRepository).existsById(ID);
-
-        assertThatThrownBy(() -> tagService.insertAndAddToGiftCertificate(ID, tag))
-                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
