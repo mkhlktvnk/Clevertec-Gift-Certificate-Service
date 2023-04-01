@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
-import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
@@ -21,24 +20,25 @@ import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import java.util.List;
 import java.util.Optional;
 
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class GiftCertificateServiceImplTest {
     private static final Long ID = 1L;
 
-    @Mock
-    private GiftCertificateRepository giftCertificateRepository;
+    private static final GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder
+            .aGiftCertificateCriteria()
+            .withName("some-name")
+            .withDescription("some-description")
+            .withTagName("some-tag-name")
+            .build();
 
     @Mock
-    private TagRepository tagRepository;
+    private GiftCertificateRepository giftCertificateRepository;
 
     @Mock
     private GiftCertificateMessages tagMessages;
@@ -49,32 +49,28 @@ class GiftCertificateServiceImplTest {
     @Test
     void checkGetByPageableAndCriteriaShouldReturnExpectedResultAndCallRepository() {
         Pageable pageable = PageRequest.of(0, 1);
-        GiftCertificateCriteria criteria = GiftCertificateCriteriaTestDataBuilder.aGiftCertificateCriteria().build();
         List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
-        List<GiftCertificate> expected = List.of(GiftCertificateTestDataBuilder.aGiftCertificate().build());
-        doReturn(expected).when(giftCertificateRepository).findAll(pageable, criteria);
-        doReturn(tags).when(tagRepository).findByGiftCertificateId(anyLong());
+        List<GiftCertificate> expected = List.of(
+                GiftCertificateTestDataBuilder.aGiftCertificate().withTags(tags).build()
+        );
+        doReturn(expected).when(giftCertificateRepository).findAll(any(Pageable.class), any());
 
-        List<GiftCertificate> actual = giftCertificateService.findAllByPageableAndCriteria(pageable, criteria);
+        List<GiftCertificate> actual = giftCertificateService
+                .findAllByPageableAndCriteria(pageable, criteria);
 
-        verify(giftCertificateRepository).findAll(pageable, criteria);
-        verify(tagRepository, times(tags.size())).findByGiftCertificateId(anyLong());
+        verify(giftCertificateRepository).findAll(any(Pageable.class), any());
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void checkGetByIdShouldReturnExpectedResultAndCallRepository() {
-        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
-        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
-                .withTags(tags)
-                .build();
+        GiftCertificate expected = GiftCertificateTestDataBuilder
+                .aGiftCertificate().build();
         doReturn(Optional.of(expected)).when(giftCertificateRepository).findById(ID);
-        doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
         GiftCertificate actual = giftCertificateService.findById(ID);
 
         verify(giftCertificateRepository).findById(ID);
-        verify(tagRepository, times(tags.size())).findByGiftCertificateId(ID);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -87,38 +83,27 @@ class GiftCertificateServiceImplTest {
     }
 
     @Test
-    void checkSaveShouldReturnExpectedResultAndCallBothRepositories() {
-        Tag tag = TagTestDataBuilder.aTag().build();
-        List<Tag> tags = singletonList(tag);
-        GiftCertificate expected = GiftCertificateTestDataBuilder.aGiftCertificate()
-                .withId(ID).withTags(tags).build();
+    void checkSaveShouldReturnExpectedResultAndCallRepository() {
+        GiftCertificate expected = GiftCertificateTestDataBuilder
+                .aGiftCertificate().build();
         doReturn(expected).when(giftCertificateRepository).insert(expected);
-        doReturn(tags).when(tagRepository).findByGiftCertificateId(ID);
 
         GiftCertificate actual = giftCertificateService.save(expected);
 
-        verify(tagRepository, times(tags.size()))
-                .insertAndAddToGiftCertificate(eq(expected.getId()), eq(tag));
         verify(giftCertificateRepository).insert(expected);
-        verify(tagRepository).findByGiftCertificateId(ID);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void checkUpdateByShouldCallRepositoryTwice() {
-        Tag tag = TagTestDataBuilder.aTag().build();
-        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate()
-                .withTags(singletonList(tag))
-                .build();
-        Integer expectedTagRepositoryCalls = giftCertificate.getTags().size();
+        GiftCertificate updateCertificate = GiftCertificateTestDataBuilder
+                .aGiftCertificate().build();
         doReturn(true).when(giftCertificateRepository).existsById(ID);
 
-        giftCertificateService.updateById(ID, giftCertificate);
+        giftCertificateService.updateById(ID, updateCertificate);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(tagRepository, times(expectedTagRepositoryCalls))
-                .insertAndAddToGiftCertificate(eq(ID), eq(tag));
-        verify(giftCertificateRepository).update(ID, giftCertificate);
+        verify(giftCertificateRepository).update(ID, updateCertificate);
     }
 
     @Test
