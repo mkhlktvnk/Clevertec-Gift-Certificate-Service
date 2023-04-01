@@ -1,12 +1,18 @@
 package ru.clevertec.ecl.domain.repository.impl;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.query.QueryUtils;
 import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
+import ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
@@ -18,8 +24,23 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
     private final SessionFactory sessionFactory;
 
     @Override
-    public List<GiftCertificate> findAll(Pageable pageable, GiftCertificateCriteria criteria) {
-        throw new UnsupportedOperationException();
+    public List<GiftCertificate> findAll(Pageable pageable, Specification<GiftCertificate> specification) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<GiftCertificate> query =
+                    builder.createQuery(GiftCertificate.class);
+            Root<GiftCertificate> root =
+                    query.from(GiftCertificate.class);
+
+            query.select(root)
+                    .where(specification.toPredicate(root, query, builder))
+                    .orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+
+            return session.createQuery(query)
+                    .setFirstResult(pageable.getPageNumber())
+                    .setMaxResults(pageable.getPageSize())
+                    .getResultList();
+        }
     }
 
     @Override
@@ -49,6 +70,7 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
             certificate.setDescription(updateCertificate.getDescription());
             certificate.setPrice(updateCertificate.getPrice());
             certificate.setDuration(updateCertificate.getDuration());
+            certificate.getTags().addAll(updateCertificate.getTags());
             session.flush();
             session.getTransaction().commit();
         }
