@@ -29,15 +29,14 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
 
     @Override
     public GiftCertificate build() {
-        return GiftCertificate.builder()
-                .id(id)
-                .name(name)
-                .description(description)
-                .price(price)
-                .duration(duration)
-                .createDate(createDate)
-                .lastUpdateDate(lastUpdateDate)
-                .tags(tags)
-                .build();
+        GiftCertificate giftCertificate = new GiftCertificate();
+        giftCertificate.setId(id);
+        giftCertificate.setName(name);
+        giftCertificate.setPrice(price);
+        giftCertificate.setDuration(duration);
+        giftCertificate.setCreateDate(createDate);
+        giftCertificate.setLastUpdateDate(lastUpdateDate);
+        giftCertificate.setTags(tags);
+        return giftCertificate;
     }
 }
