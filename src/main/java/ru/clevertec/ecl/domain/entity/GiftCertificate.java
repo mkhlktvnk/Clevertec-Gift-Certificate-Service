@@ -28,10 +28,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @EqualsAndHashCode
 @Entity
 @Table(name = "gift_certificates")
