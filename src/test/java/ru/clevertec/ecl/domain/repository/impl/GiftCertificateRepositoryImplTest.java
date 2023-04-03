@@ -1,6 +1,5 @@
 package ru.clevertec.ecl.domain.repository.impl;
 
-import builder.impl.GiftCertificateCriteriaTestDataBuilder;
 import builder.impl.GiftCertificateTestDataBuilder;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import ru.clevertec.ecl.config.HibernateTestConfig;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications;
-import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.math.BigDecimal;
 import java.util.List;
