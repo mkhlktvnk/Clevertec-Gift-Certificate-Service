@@ -22,65 +22,54 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public List<Tag> findAll(Pageable pageable) {
-        try (Session session = sessionFactory.openSession()) {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
-            Root<Tag> root = query.from(Tag.class);
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder builder = session.getCriteriaBuilder();
 
-            query.select(root)
-                    .orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+        CriteriaQuery<Tag> query = builder.createQuery(Tag.class);
+        Root<Tag> root = query.from(Tag.class);
 
-            return session.createQuery(query)
-                    .setFirstResult(pageable.getPageNumber())
-                    .setMaxResults(pageable.getPageSize())
-                    .getResultList();
-        }
+        query.select(root)
+                .orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
+
+        return session.createQuery(query)
+                .setFirstResult(pageable.getPageNumber())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
     }
 
     @Override
     public Optional<Tag> findById(long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return Optional.ofNullable(session.get(Tag.class, id));
-        }
+        Session session = sessionFactory.getCurrentSession();
+        return Optional.ofNullable(session.get(Tag.class, id));
     }
 
     @Override
     public Tag insert(Tag tag) {
-        try (Session session = sessionFactory.openSession()) {
-            session.getTransaction().begin();
-            session.persist(tag);
-            session.flush();
-            session.getTransaction().commit();
-            return tag;
-        }
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(tag);
+        session.flush();
+        return tag;
     }
 
     @Override
     public void update(Long id, Tag updateTag) {
-        try (Session session = sessionFactory.openSession()) {
-            session.getTransaction().begin();
-            Tag tag = session.get(Tag.class, id);
-            tag.setName(updateTag.getName());
-            session.flush();
-            session.getTransaction().commit();
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Tag tag = session.get(Tag.class, id);
+        tag.setName(updateTag.getName());
+        session.flush();
     }
 
     @Override
     public void delete(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.getTransaction().begin();
-            Tag tag = session.get(Tag.class, id);
-            session.remove(tag);
-            session.flush();
-            session.getTransaction().commit();
-        }
+        Session session = sessionFactory.getCurrentSession();
+        Tag tag = session.get(Tag.class, id);
+        session.remove(tag);
+        session.flush();
     }
 
     @Override
     public boolean existsById(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            return session.get(Tag.class, id) != null;
-        }
+        return sessionFactory.getCurrentSession()
+                .get(Tag.class, id) != null;
     }
 }
