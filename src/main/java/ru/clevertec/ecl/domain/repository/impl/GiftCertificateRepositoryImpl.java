@@ -37,7 +37,7 @@ public class GiftCertificateRepositoryImpl implements GiftCertificateRepository 
                 .orderBy(QueryUtils.toOrders(pageable.getSort(), root, builder));
 
         return session.createQuery(query)
-                .setFirstResult(pageable.getPageNumber())
+                .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
     }
