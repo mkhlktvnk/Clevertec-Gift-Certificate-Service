@@ -41,6 +41,12 @@ public class TagController {
         return mapper.mapToModel(tag);
     }
 
+    @GetMapping("/tags/popular")
+    public TagModel findUserMostPopularTagWithTheHighestCostOfAllOrders() {
+        Tag tag = tagService.findUserMostPopularTagWithTheHighestCostOfAllOrders();
+        return mapper.mapToModel(tag);
+    }
+
     @PostMapping("/tags")
     @ResponseStatus(HttpStatus.CREATED)
     public TagModel save(@Valid @RequestBody TagModel tagModel) {
