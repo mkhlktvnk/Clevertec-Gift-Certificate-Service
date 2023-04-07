@@ -30,6 +30,12 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public Tag findUserMostPopularTagWithTheHighestCostOfAllOrders() {
+        return tagRepository.findUserMostPopularTagWithTheHighestCostOfAllOrders()
+                .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
+    }
+
+    @Override
     @Transactional
     public Tag insert(Tag tag) {
         return tagRepository.save(tag);
