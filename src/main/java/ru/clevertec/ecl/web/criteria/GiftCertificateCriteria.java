@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 public class GiftCertificateCriteria {
@@ -16,7 +18,5 @@ public class GiftCertificateCriteria {
     @Size(min = 1)
     private String description;
 
-    @NotBlank
-    @Size(min = 1)
-    private String tagName;
+    private List<String> tagName;
 }
