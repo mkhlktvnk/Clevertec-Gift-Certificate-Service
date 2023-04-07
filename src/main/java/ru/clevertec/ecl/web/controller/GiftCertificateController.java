@@ -20,6 +20,7 @@ import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import ru.clevertec.ecl.web.mapper.GiftCertificateMapper;
 import ru.clevertec.ecl.web.model.GiftCertificateModel;
+import ru.clevertec.ecl.web.request.GiftCertificateUpdateRequest;
 
 import java.util.List;
 
@@ -52,9 +53,8 @@ public class GiftCertificateController {
 
     @PutMapping("/certificates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel updateCertificateModel) {
-        GiftCertificate updateCertificate = mapper.mapToEntity(updateCertificateModel);
-        giftCertificateService.updateById(id, updateCertificate);
+    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateUpdateRequest updateRequest) {
+        giftCertificateService.updateById(id, updateRequest);
     }
 
     @DeleteMapping("/certificates/{id}")
