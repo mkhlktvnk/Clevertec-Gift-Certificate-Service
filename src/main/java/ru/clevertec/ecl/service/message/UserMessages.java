@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 @PropertySource("classpath:message/message.properties")
-public class TagMessages {
+public class UserMessages {
 
-    @Value("${tag.not-found}")
+    @Value("${user.not-found}")
     private String notFound;
 }
