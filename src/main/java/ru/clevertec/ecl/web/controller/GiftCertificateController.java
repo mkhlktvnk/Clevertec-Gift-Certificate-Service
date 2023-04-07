@@ -6,15 +6,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
@@ -51,7 +43,7 @@ public class GiftCertificateController {
         return mapper.mapToModel(giftCertificateService.save(giftCertificate));
     }
 
-    @PutMapping("/certificates/{id}")
+    @PatchMapping("/certificates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateUpdateRequest updateRequest) {
         giftCertificateService.updateById(id, updateRequest);
