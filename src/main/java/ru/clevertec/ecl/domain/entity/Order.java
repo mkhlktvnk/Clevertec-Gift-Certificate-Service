@@ -38,10 +38,10 @@ public class Order implements Identifiable<Long> {
     private Instant purchaseTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gift_certificate_id")
+    @JoinColumn(name = "gift_certificate_id", nullable = false)
     private GiftCertificate giftCertificate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
