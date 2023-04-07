@@ -7,13 +7,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
-import ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
+
+import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasDescriptionLike;
+import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasNameLike;
+import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasTagWithNameIn;
 
 @Service
 @RequiredArgsConstructor
@@ -24,11 +27,10 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     @Transactional(readOnly = true)
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
-        Specification<GiftCertificate> specification = Specification.anyOf(
-                GiftCertificateSpecifications.hasNameLike(criteria.getName()),
-                GiftCertificateSpecifications.hasDescriptionLike(criteria.getDescription()),
-                GiftCertificateSpecifications.hasTagWithName(criteria.getTagName())
-        );
+        Specification<GiftCertificate> specification = Specification.where(hasNameLike(criteria.getName()))
+                .and(hasDescriptionLike(criteria.getDescription()))
+                .and(hasTagWithNameIn(criteria.getTagName()));
+
         return giftCertificateRepository.findAll(specification, pageable).getContent();
     }
 
