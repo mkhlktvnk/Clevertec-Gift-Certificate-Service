@@ -25,7 +25,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateMessages giftCertificateMessages;
 
     @Override
-    @Transactional(readOnly = true)
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
         Specification<GiftCertificate> specification = Specification.where(hasNameLike(criteria.getName()))
                 .and(hasDescriptionLike(criteria.getDescription()))
@@ -35,7 +34,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public GiftCertificate findById(long id) {
         return giftCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));

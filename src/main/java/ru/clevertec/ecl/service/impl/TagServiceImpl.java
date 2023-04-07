@@ -19,13 +19,11 @@ public class TagServiceImpl implements TagService {
     private final TagMessages tagMessages;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Tag> findAllByPageable(Pageable pageable) {
         return tagRepository.findAll(pageable).getContent();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Tag findById(long id) {
         return tagRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
