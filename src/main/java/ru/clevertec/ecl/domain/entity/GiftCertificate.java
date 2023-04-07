@@ -62,4 +62,7 @@ public class GiftCertificate implements Identifiable<Long> {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "giftCertificates")
+    private List<Order> orders = new ArrayList<>();
 }
