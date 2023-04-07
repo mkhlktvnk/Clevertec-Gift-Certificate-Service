@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
@@ -38,13 +40,15 @@ class TagServiceImplTest {
     @Test
     void checkGetTagsShouldCallRepositoryAndReturnExpectedResult() {
         Pageable pageable = PageRequest.of(0, 1);
-        List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
+        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
+        Page<Tag> expected = new PageImpl<>(tags);
+
         doReturn(expected).when(tagRepository).findAll(pageable);
 
         List<Tag> actual = tagService.findAllByPageable(pageable);
 
         verify(tagRepository).findAll(pageable);
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected.getContent());
     }
 
     @Test
@@ -81,6 +85,7 @@ class TagServiceImplTest {
     void checkUpdateByIdShouldCallRepositoryTwice() {
         Tag tag = TagTestDataBuilder.aTag().build();
         doReturn(true).when(tagRepository).existsById(ID);
+        doReturn(Optional.of(tag)).when(tagRepository).findById(ID);
 
         tagService.updateById(ID, tag);
 
