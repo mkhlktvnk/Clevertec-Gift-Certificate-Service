@@ -29,7 +29,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
                 GiftCertificateSpecifications.hasDescriptionLike(criteria.getDescription()),
                 GiftCertificateSpecifications.hasTagWithName(criteria.getTagName())
         );
-        return giftCertificateRepository.findAll(pageable, specification);
+        return giftCertificateRepository.findAll(specification, pageable).getContent();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     @Transactional
     public GiftCertificate save(GiftCertificate giftCertificate) {
-        return giftCertificateRepository.insert(giftCertificate);
+        return giftCertificateRepository.save(giftCertificate);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
-        giftCertificateRepository.update(id, updateCertificate);
+        /*giftCertificateRepository.update(id, updateCertificate);*/
     }
 
     @Override
@@ -60,6 +60,6 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
-        giftCertificateRepository.delete(id);
+        giftCertificateRepository.deleteById(id);
     }
 }

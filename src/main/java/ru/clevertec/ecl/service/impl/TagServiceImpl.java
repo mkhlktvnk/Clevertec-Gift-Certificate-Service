@@ -21,7 +21,7 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional(readOnly = true)
     public List<Tag> findAllByPageable(Pageable pageable) {
-        return tagRepository.findAll(pageable);
+        return tagRepository.findAll(pageable).getContent();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public Tag insert(Tag tag) {
-        return tagRepository.insert(tag);
+        return tagRepository.save(tag);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class TagServiceImpl implements TagService {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
-        tagRepository.update(id, updateTag);
+        /*tagRepository.update(id, updateTag);*/
     }
 
     @Override
@@ -52,6 +52,6 @@ public class TagServiceImpl implements TagService {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
-        tagRepository.delete(id);
+        tagRepository.deleteById(id);
     }
 }

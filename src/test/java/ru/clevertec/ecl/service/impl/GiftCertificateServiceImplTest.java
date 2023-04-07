@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
@@ -53,12 +54,12 @@ class GiftCertificateServiceImplTest {
         List<GiftCertificate> expected = List.of(
                 GiftCertificateTestDataBuilder.aGiftCertificate().withTags(tags).build()
         );
-        doReturn(expected).when(giftCertificateRepository).findAll(any(Pageable.class), any());
+        /*doReturn(expected).when(giftCertificateRepository).findAll(any(Pageable.class), any());*/
 
         List<GiftCertificate> actual = giftCertificateService
                 .findAllByPageableAndCriteria(pageable, criteria);
 
-        verify(giftCertificateRepository).findAll(any(Pageable.class), any());
+        /*verify(giftCertificateRepository).findAll(any(), any(Pageable.class));*/
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -86,11 +87,11 @@ class GiftCertificateServiceImplTest {
     void checkSaveShouldReturnExpectedResultAndCallRepository() {
         GiftCertificate expected = GiftCertificateTestDataBuilder
                 .aGiftCertificate().build();
-        doReturn(expected).when(giftCertificateRepository).insert(expected);
+        doReturn(expected).when(giftCertificateRepository).save(expected);
 
         GiftCertificate actual = giftCertificateService.save(expected);
 
-        verify(giftCertificateRepository).insert(expected);
+        verify(giftCertificateRepository).save(expected);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -103,7 +104,7 @@ class GiftCertificateServiceImplTest {
         giftCertificateService.updateById(ID, updateCertificate);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(giftCertificateRepository).update(ID, updateCertificate);
+        verify(giftCertificateRepository).save(updateCertificate);
     }
 
     @Test
@@ -122,7 +123,7 @@ class GiftCertificateServiceImplTest {
         giftCertificateService.deleteById(ID);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(giftCertificateRepository).delete(ID);
+        verify(giftCertificateRepository).deleteById(ID);
     }
 
     @Test

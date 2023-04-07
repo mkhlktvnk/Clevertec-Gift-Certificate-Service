@@ -69,11 +69,11 @@ class TagServiceImplTest {
     @Test
     void checkInsertShouldReturnExpectedResult() {
         Tag expected = TagTestDataBuilder.aTag().build();
-        doReturn(expected).when(tagRepository).insert(expected);
+        doReturn(expected).when(tagRepository).save(expected);
 
         Tag actual = tagService.insert(expected);
 
-        verify(tagRepository).insert(expected);
+        verify(tagRepository).save(expected);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -85,7 +85,7 @@ class TagServiceImplTest {
         tagService.updateById(ID, tag);
 
         verify(tagRepository).existsById(ID);
-        verify(tagRepository).update(ID, tag);
+        verify(tagRepository).save(tag);
     }
 
     @Test
@@ -104,7 +104,7 @@ class TagServiceImplTest {
         tagService.deleteById(ID);
 
         verify(tagRepository).existsById(ID);
-        verify(tagRepository).delete(ID);
+        verify(tagRepository).deleteById(ID);
     }
 
     @Test
