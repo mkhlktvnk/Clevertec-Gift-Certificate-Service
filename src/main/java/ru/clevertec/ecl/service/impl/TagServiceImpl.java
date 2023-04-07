@@ -47,7 +47,10 @@ public class TagServiceImpl implements TagService {
         if (!tagRepository.existsById(id)) {
             throw new ResourceNotFoundException(tagMessages.getNotFound());
         }
-        /*tagRepository.update(id, updateTag);*/
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
+        tag.setName(updateTag.getName());
+        tagRepository.save(tag);
     }
 
     @Override

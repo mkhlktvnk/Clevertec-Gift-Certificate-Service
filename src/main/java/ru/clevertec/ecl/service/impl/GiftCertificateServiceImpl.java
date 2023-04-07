@@ -48,13 +48,13 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
 
     @Override
     @Transactional
-    public void updateById(long id, GiftCertificateUpdateRequest updateRequest) {
+    public void updateById(long id, GiftCertificate updateCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
             throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
         }
         GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
-        giftCertificate.setName(updateRequest.getName());
+        giftCertificate.setName(updateCertificate.getName());
         giftCertificateRepository.save(giftCertificate);
     }
 

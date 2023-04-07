@@ -53,8 +53,9 @@ public class GiftCertificateController {
 
     @PatchMapping("/certificates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateUpdateRequest updateRequest) {
-        giftCertificateService.updateById(id, updateRequest);
+    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel updateCertificate) {
+        GiftCertificate giftCertificate = mapper.mapToEntity(updateCertificate);
+        giftCertificateService.updateById(id, giftCertificate);
     }
 
     @DeleteMapping("/certificates/{id}")

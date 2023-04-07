@@ -14,7 +14,7 @@ public interface GiftCertificateService {
 
     GiftCertificate save(GiftCertificate giftCertificate);
 
-    void updateById(long id, GiftCertificateUpdateRequest updateRequest);
+    void updateById(long id, GiftCertificate updateCertificate);
 
     void deleteById(long id);
 }
