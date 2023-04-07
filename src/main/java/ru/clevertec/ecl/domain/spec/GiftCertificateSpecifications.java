@@ -6,8 +6,11 @@ import org.springframework.data.jpa.domain.Specification;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 
+import java.util.List;
+
 @UtilityClass
 public class GiftCertificateSpecifications {
+
     public static Specification<GiftCertificate> hasNameLike(String name) {
         return (root, query, builder) -> {
             if (name == null) {
@@ -26,13 +29,14 @@ public class GiftCertificateSpecifications {
         };
     }
 
-    public static Specification<GiftCertificate> hasTagWithName(String tagName) {
+    public static Specification<GiftCertificate> hasTagWithNameIn(List<String> tagNames) {
         return (root, query, builder) -> {
-            if (tagName == null) {
+            if (tagNames == null){
                 return builder.isTrue(builder.literal(true));
             }
             Join<Tag, GiftCertificate> join = root.join("tags");
-            return builder.equal(join.get("name"), tagName);
+            return join.get("name").in(tagNames);
         };
     }
+
 }
