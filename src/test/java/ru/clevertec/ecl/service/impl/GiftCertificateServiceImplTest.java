@@ -8,6 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,7 +37,7 @@ class GiftCertificateServiceImplTest {
             .aGiftCertificateCriteria()
             .withName("some-name")
             .withDescription("some-description")
-            .withTagName("some-tag-name")
+            .withTagName(List.of("new-name"))
             .build();
 
     @Mock
@@ -51,16 +53,19 @@ class GiftCertificateServiceImplTest {
     void checkGetByPageableAndCriteriaShouldReturnExpectedResultAndCallRepository() {
         Pageable pageable = PageRequest.of(0, 1);
         List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
-        List<GiftCertificate> expected = List.of(
+        List<GiftCertificate> giftCertificates = List.of(
                 GiftCertificateTestDataBuilder.aGiftCertificate().withTags(tags).build()
         );
-        /*doReturn(expected).when(giftCertificateRepository).findAll(any(Pageable.class), any());*/
+        Page<GiftCertificate> expected = new PageImpl<>(giftCertificates);
+        doReturn(expected).when(giftCertificateRepository)
+                .findAll(any(Specification.class), any(Pageable.class));
 
         List<GiftCertificate> actual = giftCertificateService
                 .findAllByPageableAndCriteria(pageable, criteria);
 
-        /*verify(giftCertificateRepository).findAll(any(), any(Pageable.class));*/
-        assertThat(actual).isEqualTo(expected);
+        verify(giftCertificateRepository)
+                .findAll(any(Specification.class), any(Pageable.class));
+        assertThat(actual).isEqualTo(expected.getContent());
     }
 
     @Test
@@ -97,14 +102,14 @@ class GiftCertificateServiceImplTest {
 
     @Test
     void checkUpdateByShouldCallRepositoryTwice() {
-        GiftCertificate updateCertificate = GiftCertificateTestDataBuilder
-                .aGiftCertificate().build();
+        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate().build();
         doReturn(true).when(giftCertificateRepository).existsById(ID);
+        doReturn(Optional.of(giftCertificate)).when(giftCertificateRepository).findById(ID);
 
-        giftCertificateService.updateById(ID, updateCertificate);
+        giftCertificateService.updateById(ID, giftCertificate);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(giftCertificateRepository).save(updateCertificate);
+        verify(giftCertificateRepository).save(any(GiftCertificate.class));
     }
 
     @Test
