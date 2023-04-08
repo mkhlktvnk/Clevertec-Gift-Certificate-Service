@@ -28,4 +28,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new ResourceNotFoundException(userMessages.getNotFound()));
     }
 
+    @Override
+    public boolean existsById(long id) {
+        return userRepository.existsById(id);
+    }
+
 }

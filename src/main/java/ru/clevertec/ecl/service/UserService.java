@@ -9,4 +9,6 @@ public interface UserService {
     List<User> findAllByPageable(Pageable pageable);
 
     User findById(long id);
+
+    boolean existsById(long id);
 }
