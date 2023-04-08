@@ -13,6 +13,7 @@ import ru.clevertec.ecl.service.OrderService;
 import ru.clevertec.ecl.service.UserService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.OrderMessages;
+import ru.clevertec.ecl.service.message.UserMessages;
 
 import java.util.List;
 
@@ -23,9 +24,13 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final GiftCertificateService giftCertificateService;
     private final OrderMessages orderMessages;
+    private final UserMessages userMessages;
 
     @Override
     public List<Order> findAllByUserId(long userId, Pageable pageable) {
+        if (!userService.existsById(userId)) {
+            throw new ResourceNotFoundException(userMessages.getNotFound());
+        }
         return orderRepository.findAllByUserId(userId, pageable);
     }
 
