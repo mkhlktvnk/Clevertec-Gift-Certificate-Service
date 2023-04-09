@@ -11,7 +11,6 @@ import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
 import ru.clevertec.ecl.service.message.GiftCertificateMessages;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
-import ru.clevertec.ecl.web.request.GiftCertificateUpdateRequest;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package ru.clevertec.ecl.service;
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
-import ru.clevertec.ecl.web.request.GiftCertificateUpdateRequest;
 
 import java.util.List;
 
