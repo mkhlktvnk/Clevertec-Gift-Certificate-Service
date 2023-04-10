@@ -33,8 +33,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findUserMostPopularTagWithTheHighestCostOfAllOrders() {
-        return tagRepository.findUserMostPopularTagWithTheHighestCostOfAllOrders()
+    public Tag findUserMostPopularTagWithTheHighestCostOfAllOrders(long userId) {
+        return tagRepository.findUserMostPopularTagWithTheHighestCostOfAllOrders(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         messages.get(MessageKey.TAG_NOT_FOUND)
                 ));

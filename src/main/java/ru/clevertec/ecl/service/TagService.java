@@ -10,7 +10,7 @@ public interface TagService {
 
     Tag findById(long id);
 
-    Tag findUserMostPopularTagWithTheHighestCostOfAllOrders();
+    Tag findUserMostPopularTagWithTheHighestCostOfAllOrders(long userId);
 
     Tag insert(Tag tag);
 
