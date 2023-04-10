@@ -12,8 +12,8 @@ import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.OrderService;
 import ru.clevertec.ecl.service.UserService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.OrderMessages;
-import ru.clevertec.ecl.service.message.UserMessages;
+import ru.clevertec.ecl.service.message.MessageKey;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 
@@ -23,13 +23,14 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final UserService userService;
     private final GiftCertificateService giftCertificateService;
-    private final OrderMessages orderMessages;
-    private final UserMessages userMessages;
+    private final MessagesSource messages;
 
     @Override
     public List<Order> findAllByUserId(long userId, Pageable pageable) {
         if (!userService.existsById(userId)) {
-            throw new ResourceNotFoundException(userMessages.getNotFound());
+            throw new ResourceNotFoundException(
+                    messages.get(MessageKey.ORDER_NOT_FOUND)
+            );
         }
         return orderRepository.findAllByUserId(userId, pageable);
     }
@@ -37,7 +38,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findById(long id) {
         return orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(orderMessages.getNotFound()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.ORDER_NOT_FOUND)
+                ));
     }
 
     @Override
@@ -57,7 +60,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void deleteById(long id) {
         if (!orderRepository.existsById(id)) {
-            throw new ResourceNotFoundException(orderMessages.getNotFound());
+            throw new ResourceNotFoundException(
+                    messages.get(MessageKey.ORDER_NOT_FOUND)
+            );
         }
         orderRepository.deleteById(id);
     }

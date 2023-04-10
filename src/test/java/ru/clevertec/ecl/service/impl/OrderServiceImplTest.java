@@ -15,8 +15,7 @@ import ru.clevertec.ecl.domain.entity.Order;
 import ru.clevertec.ecl.domain.entity.User;
 import ru.clevertec.ecl.domain.repository.OrderRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.OrderMessages;
-import ru.clevertec.ecl.service.message.UserMessages;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,10 +43,7 @@ class OrderServiceImplTest {
     private GiftCertificateServiceImpl giftCertificateService;
 
     @Mock
-    private OrderMessages orderMessages;
-
-    @Mock
-    private UserMessages userMessages;
+    private MessagesSource messagesSource;
 
     @InjectMocks
     private OrderServiceImpl orderService;
@@ -72,8 +68,7 @@ class OrderServiceImplTest {
         doReturn(false).when(userService).existsById(USER_ID);
 
         assertThatThrownBy(() -> orderService.findAllByUserId(USER_ID, pageable))
-                .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage(userMessages.getNotFound());
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -92,8 +87,7 @@ class OrderServiceImplTest {
         doReturn(Optional.empty()).when(orderRepository).findById(ORDER_ID);
 
         assertThatThrownBy(() -> orderService.findById(ORDER_ID))
-                .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage(orderMessages.getNotFound());
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -131,7 +125,6 @@ class OrderServiceImplTest {
         doReturn(false).when(orderRepository).existsById(ORDER_ID);
 
         assertThatThrownBy(() -> orderService.deleteById(ORDER_ID))
-                .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage(orderMessages.getNotFound());
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 }

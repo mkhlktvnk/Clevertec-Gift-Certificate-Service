@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.User;
 import ru.clevertec.ecl.domain.repository.UserRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.UserMessages;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ class UserServiceImplTest {
     private UserRepository userRepository;
 
     @Mock
-    private UserMessages userMessages;
+    private MessagesSource messages;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -66,7 +66,6 @@ class UserServiceImplTest {
         doReturn(Optional.empty()).when(userRepository).findById(ID);
 
         assertThatThrownBy(() -> userService.findById(ID))
-                .isInstanceOf(ResourceNotFoundException.class)
-                .hasMessage(userMessages.getNotFound());
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 }

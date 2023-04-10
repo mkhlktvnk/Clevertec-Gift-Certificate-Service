@@ -9,20 +9,19 @@ import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.GiftCertificateMessages;
+import ru.clevertec.ecl.service.message.MessageKey;
+import ru.clevertec.ecl.service.message.MessagesSource;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
 
-import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasDescriptionLike;
-import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasNameLike;
-import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.hasTagWithNameIn;
+import static ru.clevertec.ecl.domain.spec.GiftCertificateSpecifications.*;
 
 @Service
 @RequiredArgsConstructor
 public class GiftCertificateServiceImpl implements GiftCertificateService {
     private final GiftCertificateRepository giftCertificateRepository;
-    private final GiftCertificateMessages giftCertificateMessages;
+    private final MessagesSource messages;
 
     @Override
     public List<GiftCertificate> findAllByPageableAndCriteria(Pageable pageable, GiftCertificateCriteria criteria) {
@@ -36,7 +35,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Override
     public GiftCertificate findById(long id) {
         return giftCertificateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.GIFT_CERTIFICATE_NOT_FOUND)
+                ));
     }
 
     @Override
@@ -49,10 +50,14 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     public void updateById(long id, GiftCertificate updateCertificate) {
         if (!giftCertificateRepository.existsById(id)) {
-            throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
+            throw new ResourceNotFoundException(
+                    messages.get(MessageKey.GIFT_CERTIFICATE_NOT_FOUND)
+            );
         }
         GiftCertificate giftCertificate = giftCertificateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(giftCertificateMessages.getNotFound()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.GIFT_CERTIFICATE_NOT_FOUND)
+                ));
         giftCertificate.setName(updateCertificate.getName());
         giftCertificateRepository.save(giftCertificate);
     }
@@ -61,7 +66,9 @@ public class GiftCertificateServiceImpl implements GiftCertificateService {
     @Transactional
     public void deleteById(long id) {
         if (!giftCertificateRepository.existsById(id)) {
-            throw new ResourceNotFoundException(giftCertificateMessages.getNotFound());
+            throw new ResourceNotFoundException(
+                    messages.get(MessageKey.GIFT_CERTIFICATE_NOT_FOUND)
+            );
         }
         giftCertificateRepository.deleteById(id);
     }

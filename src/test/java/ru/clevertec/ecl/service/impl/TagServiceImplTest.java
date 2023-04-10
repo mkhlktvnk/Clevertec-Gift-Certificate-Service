@@ -13,7 +13,7 @@ import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.TagMessages;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ class TagServiceImplTest {
     private TagRepository tagRepository;
 
     @Mock
-    private TagMessages tagMessages;
+    private MessagesSource messages;
 
     @InjectMocks
     private TagServiceImpl tagService;
