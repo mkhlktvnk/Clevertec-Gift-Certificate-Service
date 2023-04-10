@@ -20,7 +20,6 @@ import ru.clevertec.ecl.service.GiftCertificateService;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 import ru.clevertec.ecl.web.mapper.GiftCertificateMapper;
 import ru.clevertec.ecl.web.model.GiftCertificateModel;
-import ru.clevertec.ecl.web.request.GiftCertificateUpdateRequest;
 
 import java.util.List;
 
