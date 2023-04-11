@@ -16,11 +16,6 @@ import java.math.BigDecimal;
 public class OrderModel {
 
     @NotNull
-    @Min(1)
-    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
-    private Long id;
-
-    @NotNull
     @JsonProperty(value = "totalPrice", access = JsonProperty.Access.READ_ONLY)
     private BigDecimal totalPrice;
 
@@ -28,11 +23,4 @@ public class OrderModel {
     @JsonProperty(value = "purchaseTime", access = JsonProperty.Access.READ_ONLY)
     private String purchaseTime;
 
-    @NotNull
-    @JsonProperty(value = "giftCertificate", access = JsonProperty.Access.READ_ONLY)
-    private GiftCertificateModel giftCertificateModel;
-
-    @NotNull
-    @JsonProperty(value = "user", access = JsonProperty.Access.READ_ONLY)
-    private UserModel userModel;
 }
