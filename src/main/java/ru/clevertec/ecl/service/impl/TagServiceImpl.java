@@ -48,11 +48,6 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public void updateById(long id, Tag updateTag) {
-        if (!tagRepository.existsById(id)) {
-            throw new ResourceNotFoundException(
-                    messages.get(MessageKey.TAG_NOT_FOUND)
-            );
-        }
         Tag tag = tagRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         messages.get(MessageKey.TAG_NOT_FOUND)
