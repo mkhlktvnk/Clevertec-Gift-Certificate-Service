@@ -1,10 +1,11 @@
-package ru.clevertec.ecl.web.mapper;
+package ru.clevertec.ecl.unit.web.mapper;
 
 import builder.impl.TagTestDataBuilder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mapstruct.factory.Mappers;
 import ru.clevertec.ecl.domain.entity.Tag;
+import ru.clevertec.ecl.web.mapper.TagMapper;
 import ru.clevertec.ecl.web.model.TagModel;
 
 import java.util.stream.Stream;

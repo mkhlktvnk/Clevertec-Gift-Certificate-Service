@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.service.impl;
+package ru.clevertec.ecl.unit.service.impl;
 
 import builder.impl.GiftCertificateTestDataBuilder;
 import builder.impl.OrderTestDataBuilder;
@@ -15,6 +15,9 @@ import ru.clevertec.ecl.domain.entity.Order;
 import ru.clevertec.ecl.domain.entity.User;
 import ru.clevertec.ecl.domain.repository.OrderRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.impl.GiftCertificateServiceImpl;
+import ru.clevertec.ecl.service.impl.OrderServiceImpl;
+import ru.clevertec.ecl.service.impl.UserServiceImpl;
 import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;

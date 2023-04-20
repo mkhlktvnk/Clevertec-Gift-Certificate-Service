@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.service.impl;
+package ru.clevertec.ecl.unit.service.impl;
 
 import builder.impl.GiftCertificateCriteriaTestDataBuilder;
 import builder.impl.GiftCertificateTestDataBuilder;
@@ -17,6 +17,7 @@ import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.impl.GiftCertificateServiceImpl;
 import ru.clevertec.ecl.service.message.MessagesSource;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
