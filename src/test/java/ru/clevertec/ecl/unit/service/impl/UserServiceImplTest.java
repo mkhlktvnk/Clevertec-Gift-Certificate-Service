@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.service.impl;
+package ru.clevertec.ecl.unit.service.impl;
 
 import builder.impl.UserTestDataBuilder;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.User;
 import ru.clevertec.ecl.domain.repository.UserRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
+import ru.clevertec.ecl.service.impl.UserServiceImpl;
 import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
