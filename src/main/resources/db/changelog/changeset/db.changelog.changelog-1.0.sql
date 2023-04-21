@@ -11,17 +11,6 @@ CREATE TABLE IF NOT EXISTS tags
     name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS orders
-(
-    id                  SERIAL PRIMARY KEY,
-    total_price         NUMERIC(19, 2) NOT NULL,
-    purchase_time       TIMESTAMP      NOT NULL DEFAULT NOW(),
-    gift_certificate_id BIGINT         NOT NULL,
-    user_id             BIGINT         NOT NULL,
-    CONSTRAINT fk_orders_gift_certificate_id FOREIGN KEY (gift_certificate_id) REFERENCES gift_certificates (id),
-    CONSTRAINT fk_orders_user_id FOREIGN KEY (user_id) REFERENCES users (id)
-);
-
 CREATE TABLE IF NOT EXISTS gift_certificates
 (
     id               SERIAL PRIMARY KEY,
@@ -32,6 +21,17 @@ CREATE TABLE IF NOT EXISTS gift_certificates
     create_date      TIMESTAMP      NOT NULL DEFAULT NOW(),
     last_update_date TIMESTAMP      NOT NULL DEFAULT NOW(),
     CONSTRAINT uq_gift_certificates_name UNIQUE (name)
+);
+
+CREATE TABLE IF NOT EXISTS orders
+(
+    id                  SERIAL PRIMARY KEY,
+    total_price         NUMERIC(19, 2) NOT NULL,
+    purchase_time       TIMESTAMP      NOT NULL DEFAULT NOW(),
+    gift_certificate_id BIGINT         NOT NULL,
+    user_id             BIGINT         NOT NULL,
+    CONSTRAINT fk_orders_gift_certificate_id FOREIGN KEY (gift_certificate_id) REFERENCES gift_certificates (id),
+    CONSTRAINT fk_orders_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE IF NOT EXISTS gift_certificates_tags
