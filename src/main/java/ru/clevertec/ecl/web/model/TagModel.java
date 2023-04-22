@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class TagModel {
-    @NotNull
+
     @Min(0)
-    @JsonProperty("id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotNull
@@ -23,4 +23,5 @@ public class TagModel {
     @Size(min = 1, max = 255)
     @JsonProperty("name")
     private String name;
+
 }
