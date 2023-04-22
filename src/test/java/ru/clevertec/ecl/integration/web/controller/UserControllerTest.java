@@ -23,7 +23,7 @@ class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     @SneakyThrows
-    void findAllByPageableShouldReturnCorrectCountOfUsers() {
+    void findAllByPageableShouldReturnCorrectCountOfUsersAndOkStatus() {
         int expectedSize = 3;
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v0/users?page=0&size=" + expectedSize))
                 .andExpect(status().isOk())
@@ -33,7 +33,7 @@ class UserControllerTest extends BaseIntegrationTest {
 
     @Test
     @SneakyThrows
-    void findById() {
+    void findByIdShouldReturnCorrectUserAndOkStatus() {
         User expectedUser = UserTestDataBuilder.anUser()
                 .withId(1L)
                 .withUsername("Alice")
