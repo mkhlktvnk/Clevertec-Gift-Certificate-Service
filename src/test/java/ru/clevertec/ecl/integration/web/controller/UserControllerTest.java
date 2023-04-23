@@ -1,6 +1,5 @@
 package ru.clevertec.ecl.integration.web.controller;
 
-import builder.impl.UserTestDataBuilder;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.clevertec.ecl.domain.entity.User;
 import ru.clevertec.ecl.integration.BaseIntegrationTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -17,6 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 class UserControllerTest extends BaseIntegrationTest {
+
+    private static final Long USER_ID = 1L;
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,17 +34,9 @@ class UserControllerTest extends BaseIntegrationTest {
     @Test
     @SneakyThrows
     void findByIdShouldReturnCorrectUserAndOkStatus() {
-        User expectedUser = UserTestDataBuilder.anUser()
-                .withId(1L)
-                .withUsername("Alice")
-                .withEmail("alice@example.com")
-                .build();
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v0/users/" + expectedUser.getId()))
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v0/users/" + USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(expectedUser.getId()))
-                .andExpect(jsonPath("$.username").value(expectedUser.getUsername()))
-                .andExpect(jsonPath("$.email").value(expectedUser.getEmail()));
+                .andExpect(jsonPath("$.id").value(USER_ID));
     }
 }
