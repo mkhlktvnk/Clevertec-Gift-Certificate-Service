@@ -1,22 +1,12 @@
 package ru.clevertec.ecl.domain.repository;
 
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 
-import java.util.List;
-import java.util.Optional;
+@Repository
+public interface GiftCertificateRepository extends JpaRepository<GiftCertificate, Long>,
+        JpaSpecificationExecutor<GiftCertificate> {
 
-public interface GiftCertificateRepository {
-    List<GiftCertificate> findAll(Pageable pageable, Specification<GiftCertificate> specification);
-
-    Optional<GiftCertificate> findById(Long id);
-
-    GiftCertificate insert(GiftCertificate giftCertificate);
-
-    void update(Long id, GiftCertificate updateCertificate);
-
-    void delete(Long id);
-
-    boolean existsById(Long id);
 }

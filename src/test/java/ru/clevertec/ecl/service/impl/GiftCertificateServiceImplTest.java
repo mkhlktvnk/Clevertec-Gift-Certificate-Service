@@ -8,13 +8,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.GiftCertificateRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.GiftCertificateMessages;
+import ru.clevertec.ecl.service.message.MessagesSource;
 import ru.clevertec.ecl.web.criteria.GiftCertificateCriteria;
 
 import java.util.List;
@@ -34,14 +37,14 @@ class GiftCertificateServiceImplTest {
             .aGiftCertificateCriteria()
             .withName("some-name")
             .withDescription("some-description")
-            .withTagName("some-tag-name")
+            .withTagName(List.of("new-name"))
             .build();
 
     @Mock
     private GiftCertificateRepository giftCertificateRepository;
 
     @Mock
-    private GiftCertificateMessages tagMessages;
+    private MessagesSource messages;
 
     @InjectMocks
     private GiftCertificateServiceImpl giftCertificateService;
@@ -50,16 +53,19 @@ class GiftCertificateServiceImplTest {
     void checkGetByPageableAndCriteriaShouldReturnExpectedResultAndCallRepository() {
         Pageable pageable = PageRequest.of(0, 1);
         List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
-        List<GiftCertificate> expected = List.of(
+        List<GiftCertificate> giftCertificates = List.of(
                 GiftCertificateTestDataBuilder.aGiftCertificate().withTags(tags).build()
         );
-        doReturn(expected).when(giftCertificateRepository).findAll(any(Pageable.class), any());
+        Page<GiftCertificate> expected = new PageImpl<>(giftCertificates);
+        doReturn(expected).when(giftCertificateRepository)
+                .findAll(any(Specification.class), any(Pageable.class));
 
         List<GiftCertificate> actual = giftCertificateService
                 .findAllByPageableAndCriteria(pageable, criteria);
 
-        verify(giftCertificateRepository).findAll(any(Pageable.class), any());
-        assertThat(actual).isEqualTo(expected);
+        verify(giftCertificateRepository)
+                .findAll(any(Specification.class), any(Pageable.class));
+        assertThat(actual).isEqualTo(expected.getContent());
     }
 
     @Test
@@ -86,24 +92,24 @@ class GiftCertificateServiceImplTest {
     void checkSaveShouldReturnExpectedResultAndCallRepository() {
         GiftCertificate expected = GiftCertificateTestDataBuilder
                 .aGiftCertificate().build();
-        doReturn(expected).when(giftCertificateRepository).insert(expected);
+        doReturn(expected).when(giftCertificateRepository).save(expected);
 
         GiftCertificate actual = giftCertificateService.save(expected);
 
-        verify(giftCertificateRepository).insert(expected);
+        verify(giftCertificateRepository).save(expected);
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void checkUpdateByShouldCallRepositoryTwice() {
-        GiftCertificate updateCertificate = GiftCertificateTestDataBuilder
-                .aGiftCertificate().build();
+        GiftCertificate giftCertificate = GiftCertificateTestDataBuilder.aGiftCertificate().build();
         doReturn(true).when(giftCertificateRepository).existsById(ID);
+        doReturn(Optional.of(giftCertificate)).when(giftCertificateRepository).findById(ID);
 
-        giftCertificateService.updateById(ID, updateCertificate);
+        giftCertificateService.updateById(ID, giftCertificate);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(giftCertificateRepository).update(ID, updateCertificate);
+        verify(giftCertificateRepository).save(any(GiftCertificate.class));
     }
 
     @Test
@@ -122,7 +128,7 @@ class GiftCertificateServiceImplTest {
         giftCertificateService.deleteById(ID);
 
         verify(giftCertificateRepository).existsById(ID);
-        verify(giftCertificateRepository).delete(ID);
+        verify(giftCertificateRepository).deleteById(ID);
     }
 
     @Test

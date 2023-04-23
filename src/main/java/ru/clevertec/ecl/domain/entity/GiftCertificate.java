@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -62,4 +63,7 @@ public class GiftCertificate implements Identifiable<Long> {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "giftCertificate", fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
 }

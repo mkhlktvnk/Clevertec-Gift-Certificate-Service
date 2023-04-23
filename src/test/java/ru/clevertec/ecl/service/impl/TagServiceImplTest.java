@@ -6,12 +6,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.TagMessages;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +32,7 @@ class TagServiceImplTest {
     private TagRepository tagRepository;
 
     @Mock
-    private TagMessages tagMessages;
+    private MessagesSource messages;
 
     @InjectMocks
     private TagServiceImpl tagService;
@@ -38,13 +40,15 @@ class TagServiceImplTest {
     @Test
     void checkGetTagsShouldCallRepositoryAndReturnExpectedResult() {
         Pageable pageable = PageRequest.of(0, 1);
-        List<Tag> expected = List.of(TagTestDataBuilder.aTag().build());
+        List<Tag> tags = List.of(TagTestDataBuilder.aTag().build());
+        Page<Tag> expected = new PageImpl<>(tags);
+
         doReturn(expected).when(tagRepository).findAll(pageable);
 
         List<Tag> actual = tagService.findAllByPageable(pageable);
 
         verify(tagRepository).findAll(pageable);
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(expected.getContent());
     }
 
     @Test
@@ -69,11 +73,11 @@ class TagServiceImplTest {
     @Test
     void checkInsertShouldReturnExpectedResult() {
         Tag expected = TagTestDataBuilder.aTag().build();
-        doReturn(expected).when(tagRepository).insert(expected);
+        doReturn(expected).when(tagRepository).save(expected);
 
         Tag actual = tagService.insert(expected);
 
-        verify(tagRepository).insert(expected);
+        verify(tagRepository).save(expected);
         assertThat(actual).isEqualTo(expected);
     }
 
@@ -81,11 +85,12 @@ class TagServiceImplTest {
     void checkUpdateByIdShouldCallRepositoryTwice() {
         Tag tag = TagTestDataBuilder.aTag().build();
         doReturn(true).when(tagRepository).existsById(ID);
+        doReturn(Optional.of(tag)).when(tagRepository).findById(ID);
 
         tagService.updateById(ID, tag);
 
         verify(tagRepository).existsById(ID);
-        verify(tagRepository).update(ID, tag);
+        verify(tagRepository).save(tag);
     }
 
     @Test
@@ -104,7 +109,7 @@ class TagServiceImplTest {
         tagService.deleteById(ID);
 
         verify(tagRepository).existsById(ID);
-        verify(tagRepository).delete(ID);
+        verify(tagRepository).deleteById(ID);
     }
 
     @Test

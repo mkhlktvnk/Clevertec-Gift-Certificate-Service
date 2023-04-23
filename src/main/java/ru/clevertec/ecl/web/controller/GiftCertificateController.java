@@ -8,9 +8,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -50,11 +50,11 @@ public class GiftCertificateController {
         return mapper.mapToModel(giftCertificateService.save(giftCertificate));
     }
 
-    @PutMapping("/certificates/{id}")
+    @PatchMapping("/certificates/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel updateCertificateModel) {
-        GiftCertificate updateCertificate = mapper.mapToEntity(updateCertificateModel);
-        giftCertificateService.updateById(id, updateCertificate);
+    public void updateById(@PathVariable Long id, @Valid @RequestBody GiftCertificateModel updateCertificate) {
+        GiftCertificate giftCertificate = mapper.mapToEntity(updateCertificate);
+        giftCertificateService.updateById(id, giftCertificate);
     }
 
     @DeleteMapping("/certificates/{id}")

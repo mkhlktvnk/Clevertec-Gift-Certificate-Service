@@ -8,7 +8,8 @@ import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.domain.repository.TagRepository;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.service.exception.ResourceNotFoundException;
-import ru.clevertec.ecl.service.message.TagMessages;
+import ru.clevertec.ecl.service.message.MessageKey;
+import ru.clevertec.ecl.service.message.MessagesSource;
 
 import java.util.List;
 
@@ -16,42 +17,53 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
-    private final TagMessages tagMessages;
+    private final MessagesSource messages;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Tag> findAllByPageable(Pageable pageable) {
-        return tagRepository.findAll(pageable);
+        return tagRepository.findAll(pageable).getContent();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Tag findById(long id) {
         return tagRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(tagMessages.getNotFound()));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.TAG_NOT_FOUND)
+                ));
     }
 
     @Override
-    @Transactional
+    public Tag findUserMostPopularTagWithTheHighestCostOfAllOrders(long userId) {
+        return tagRepository.findUserMostPopularTagWithTheHighestCostOfAllOrders(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.TAG_NOT_FOUND)
+                ));
+    }
+
+    @Override
     public Tag insert(Tag tag) {
-        return tagRepository.insert(tag);
+        return tagRepository.save(tag);
     }
 
     @Override
     @Transactional
     public void updateById(long id, Tag updateTag) {
-        if (!tagRepository.existsById(id)) {
-            throw new ResourceNotFoundException(tagMessages.getNotFound());
-        }
-        tagRepository.update(id, updateTag);
+        Tag tag = tagRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messages.get(MessageKey.TAG_NOT_FOUND)
+                ));
+        tag.setName(updateTag.getName());
+        tagRepository.save(tag);
     }
 
     @Override
     @Transactional
     public void deleteById(long id) {
         if (!tagRepository.existsById(id)) {
-            throw new ResourceNotFoundException(tagMessages.getNotFound());
+            throw new ResourceNotFoundException(
+                    messages.get(MessageKey.TAG_NOT_FOUND)
+            );
         }
-        tagRepository.delete(id);
+        tagRepository.deleteById(id);
     }
 }

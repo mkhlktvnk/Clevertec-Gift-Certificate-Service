@@ -6,15 +6,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.clevertec.ecl.domain.entity.Tag;
 import ru.clevertec.ecl.service.TagService;
 import ru.clevertec.ecl.web.mapper.TagMapper;
@@ -41,6 +33,13 @@ public class TagController {
         return mapper.mapToModel(tag);
     }
 
+    @GetMapping("/tags/popular")
+    public TagModel findUserMostPopularTagWithTheHighestCostOfAllOrders(
+            @RequestParam("userId") Long userId) {
+        Tag tag = tagService.findUserMostPopularTagWithTheHighestCostOfAllOrders(userId);
+        return mapper.mapToModel(tag);
+    }
+
     @PostMapping("/tags")
     @ResponseStatus(HttpStatus.CREATED)
     public TagModel save(@Valid @RequestBody TagModel tagModel) {
@@ -48,7 +47,7 @@ public class TagController {
         return mapper.mapToModel(tagService.insert(tag));
     }
 
-    @PutMapping("/tags/{id}")
+    @PatchMapping("/tags/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateById(@PathVariable Long id, @Valid @RequestBody TagModel updateTagModel) {
         Tag updateTag = mapper.mapToEntity(updateTagModel);
