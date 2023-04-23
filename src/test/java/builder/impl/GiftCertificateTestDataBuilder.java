@@ -32,6 +32,7 @@ public class GiftCertificateTestDataBuilder implements TestDataBuilder<GiftCerti
         GiftCertificate giftCertificate = new GiftCertificate();
         giftCertificate.setId(id);
         giftCertificate.setName(name);
+        giftCertificate.setDescription(description);
         giftCertificate.setPrice(price);
         giftCertificate.setDuration(duration);
         giftCertificate.setCreateDate(createDate);

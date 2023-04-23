@@ -1,4 +1,4 @@
-package ru.clevertec.ecl.web.mapper;
+package ru.clevertec.ecl.unit.web.mapper;
 
 import builder.impl.GiftCertificateTestDataBuilder;
 import builder.impl.TagTestDataBuilder;
@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mapstruct.factory.Mappers;
 import ru.clevertec.ecl.domain.entity.GiftCertificate;
+import ru.clevertec.ecl.web.mapper.GiftCertificateMapper;
 import ru.clevertec.ecl.web.model.GiftCertificateModel;
 
 import java.math.BigDecimal;

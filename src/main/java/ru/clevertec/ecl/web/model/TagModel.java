@@ -5,17 +5,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class TagModel {
-    @NotNull
+
     @Min(0)
-    @JsonProperty("id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotNull
@@ -23,4 +23,5 @@ public class TagModel {
     @Size(min = 1, max = 255)
     @JsonProperty("name")
     private String name;
+
 }

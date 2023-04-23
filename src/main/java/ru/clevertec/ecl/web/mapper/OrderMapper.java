@@ -15,10 +15,6 @@ import java.util.List;
 })
 public interface OrderMapper {
 
-    @Mappings(value = {
-            @Mapping(target = "userModel", source = "user"),
-            @Mapping(target = "giftCertificateModel", source = "giftCertificate")
-    })
     OrderModel mapToModel(Order order);
 
     Order mapToEntity(OrderModel orderModel);
