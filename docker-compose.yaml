@@ -16,6 +16,8 @@ services:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: user
       POSTGRES_DB: ecl
+    ports:
+      - "5432:5432"
     networks:
       - backend-network
 
