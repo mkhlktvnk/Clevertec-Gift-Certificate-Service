@@ -48,5 +48,3 @@ bin/
 .DS_Store
 
 /pgdata
-
-docker-compose.yaml
